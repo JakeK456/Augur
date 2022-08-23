@@ -5,8 +5,22 @@ import "./Navbar.css";
 export default function Navbar() {
   const { isLoggedIn, logout } = useAuth();
   return (
-    <nav className="navbar">
-      <NavLink to="/" className="navbar-link">
+    <nav className="flex items-center h-20 border-b-4 border-black ">
+      <div className="basis-1/4 flex justify-center">
+        <div className="space-y-2">
+          <div className="w-8 h-0.5 bg-gray-600"></div>
+          <div className="w-8 h-0.5 bg-gray-600"></div>
+          <div className="w-8 h-0.5 bg-gray-600"></div>
+        </div>
+      </div>
+
+      <div className="basis-1/2 flex justify-center">
+        <a href="/">Augur</a>
+      </div>
+
+      <div className="basis-1/4"></div>
+
+      {/* <NavLink to="/" className="navbar-link">
         Home
       </NavLink>
       {isLoggedIn ? (
@@ -27,7 +41,7 @@ export default function Navbar() {
             Signup
           </NavLink>
         </>
-      )}
+      )} */}
     </nav>
   );
 }
