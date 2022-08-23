@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../util/auth";
 import "./Navbar.css";
@@ -9,15 +9,13 @@ export default function Navbar() {
   const hamburgerLine =
     "w-8 h-1 rounded-full bg-black transition ease transform duration-300";
 
-  console.log(isLoggedIn);
-
   return (
     <div>
       <nav className="flex min-h-20 items-center border-b-4 border-black ">
         <div className="basis-1/4 flex justify-start pl-6 group">
           <div
             className="cursor-pointer space-y-2"
-            onClick={() => {
+            onClick={(event) => {
               setIsOpen(!isOpen);
             }}
           >
@@ -56,6 +54,10 @@ export default function Navbar() {
         className={`${
           isOpen ? "visible" : "invisible"
         } absolute z-10 w-screen bg-white rounded-b-lg `}
+        onClick={(event) => {
+          event.stopPropagation();
+          setIsOpen(false);
+        }}
       >
         <ul className="text-lg text-gray-700">
           {!isLoggedIn ? (
@@ -104,29 +106,6 @@ export default function Navbar() {
           </NavLink>
         </ul>
       </div>
-
-      {/* <NavLink to="/" className="navbar-link">
-        Home
-      </NavLink>
-      {isLoggedIn ? (
-        <>
-          <NavLink to="/protected" className="navbar-link">
-            User
-          </NavLink>
-          <button className="navbar-link" onClick={logout}>
-            Logout
-          </button>
-        </>
-      ) : (
-        <>
-          <NavLink to="/login" className="navbar-link">
-            Login
-          </NavLink>
-          <NavLink to="/signup" className="navbar-link">
-            Signup
-          </NavLink>
-        </>
-      )} */}
     </div>
   );
 }
