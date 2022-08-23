@@ -16,7 +16,7 @@ function App() {
         <AuthProvider>
           <div className="flex flex-col h-screen">
             <Navbar />
-            <div className="grow p-2 flex flex-col bg-gray195">
+            <div className="z-0 grow p-2 flex flex-col bg-gray195">
               {/* bg-white rounded-xl border-2 border-black min-h-full p-4 */}
               <div className="bg-white rounded-xl border-2 border-black min-h-full p-4">
                 <Routes>

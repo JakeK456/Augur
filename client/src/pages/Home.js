@@ -10,23 +10,7 @@ export default function Home() {
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo cumque
         explicabo ipsum, facilis repellendus omnis amet in accusantium quisquam
         nam qui consectetur sunt distinctio nemo molestiae ratione. Iure,
-        aliquam debitis. Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit. Illo cumque explicabo ipsum, facilis repellendus omnis amet in
-        accusantium quisquam nam qui consectetur sunt distinctio nemo molestiae
-        ratione. Iure, aliquam debitis. Lorem ipsum dolor sit amet, consectetur
-        adipisicing elit. Illo cumque explicabo ipsum, facilis repellendus omnis
-        amet in accusantium quisquam nam qui consectetur sunt distinctio nemo
-        molestiae ratione. Iure, aliquam debitis.Lorem ipsum dolor sit amet,
-        consectetur adipisicing elit. Illo cumque explicabo ipsum, facilis
-        repellendus omnis amet in accusantium quisquam nam qui consectetur sunt
-        distinctio nemo molestiae ratione. Iure, aliquam debitis.Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit. Illo cumque explicabo
-        ipsum, facilis repellendus omnis amet in accusantium quisquam nam qui
-        consectetur sunt distinctio nemo molestiae ratione. Iure, aliquam
-        debitis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo
-        cumque explicabo ipsum, facilis repellendus omnis amet in accusantium
-        quisquam nam qui consectetur sunt distinctio nemo molestiae ratione.
-        Iure, aliquam debitis.
+        aliquam debitis.
       </p>
     </div>
   );
