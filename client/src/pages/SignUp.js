@@ -2,26 +2,10 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../util/auth";
 
-// This signup form is intentionally minimalist to reduce effort required to
-// customize it to your app's needs. See the excellent best practices guide for
-// sign informs on web.dev https://web.dev/sign-in-form-best-practices/
-
-// TODO: customize styles or import styles with favorite css approach
-const styles = {
-  formControl: {
-    display: "flex",
-    padding: "0.25em",
-  },
-  label: {
-    flex: "0 1 6em",
-    paddingRight: "0.25em",
-  },
-};
-
 const initialFormState = {
-  username: "",
   email: "",
   password: "",
+  passwordConfirm: "",
 };
 
 export default function SignUp() {
@@ -51,7 +35,7 @@ export default function SignUp() {
   }
   return (
     <div className="w-full max-w-lg">
-      <form className="bg-white px-4 pt-6 pb-8 mb-4">
+      <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
         <div className="mb-4">
           {/* <label
             class="block text-gray-700 text-sm font-bold mb-2"
@@ -60,10 +44,13 @@ export default function SignUp() {
             Email Address
           </label> */}
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="username"
-            type="text"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="email"
+            name="email"
+            type="email"
             placeholder="Email Address"
+            value={formState.email.value}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-4">
@@ -74,10 +61,13 @@ export default function SignUp() {
             Password
           </label> */}
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
+            name="password"
             type="password"
             placeholder="Password"
+            value={formState.password.value}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-4">
@@ -88,17 +78,20 @@ export default function SignUp() {
             Confirm Password
           </label> */}
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="repeatPassword"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="passwordConfirm"
+            name="passwordConfirm"
             type="password"
-            placeholder="Repeat Password"
+            placeholder="Confirm Password"
+            value={formState.passwordConfirm.value}
+            onChange={handleInputChange}
           />
         </div>
         <div className="flex flex-col items-center justify-between">
           <div className="w-full px-6 my-2">
             <button
-              className="bg-green-500 hover:bg-blue-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
             >
               Sign Up
             </button>
@@ -116,9 +109,7 @@ export default function SignUp() {
       </form>
     </div>
 
-    // <div>
-    //   <h1>Sign Up</h1>
-    //   <hr />
+    //   {/* <div>
     //   <form onSubmit={handleSubmit}>
     //     <div style={styles.formControl}>
     //       <label htmlFor="username" style={styles.label}>
@@ -169,6 +160,6 @@ export default function SignUp() {
     //       </button>
     //     </div>
     //   </form>
-    // </div>
+    // </div> */}
   );
 }

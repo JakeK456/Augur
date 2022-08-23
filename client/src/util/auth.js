@@ -108,17 +108,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async ({ email, password, username }) => {
+  const signup = async ({ email, password, passwordConfirm }) => {
     dispatch({ type: LOADING });
     try {
       // TODO: implement improved validation.
-      if (!email || !password || !username) {
+      if (!email || !password || !passwordConfirm) {
         // TODO: implement improved error message
         throw new Error("Auth error. Invalid parameter received.");
       }
 
+      if (password !== passwordConfirm) {
+        // TODO: implement improved error message
+        throw new Error("Passwords do not match. Try again.");
+      }
+
       const { data } = await createUser({
-        variables: { email, password, username },
+        variables: { email, password },
       });
       dispatch({ type: LOGIN_SUCCESS, payload: data.createUser.token });
     } catch (error) {

@@ -63,13 +63,13 @@ export default function Navbar() {
           {!isLoggedIn ? (
             <>
               <NavLink
-                to="/Login"
+                to="/login"
                 className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
               >
                 Login
               </NavLink>
               <NavLink
-                to="/SignUp"
+                to="/signup"
                 className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
               >
                 Sign Up
@@ -78,13 +78,13 @@ export default function Navbar() {
           ) : (
             <>
               <NavLink
-                to="/Predict"
+                to="/predict"
                 className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
               >
                 Predict
               </NavLink>
               <NavLink
-                to="/Portfolio"
+                to="/portfolio"
                 className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
               >
                 Portfolio
@@ -93,17 +93,31 @@ export default function Navbar() {
           )}
 
           <NavLink
-            to="/Charts"
+            to="/charts"
             className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
           >
             Charts
           </NavLink>
           <NavLink
-            to="/News"
-            className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center rounded-b-lg"
+            to="/news"
+            className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
           >
             News
           </NavLink>
+
+          {isLoggedIn ? (
+            <>
+              <NavLink
+                to="/"
+                className="flex block py-2 px-4 h-12 hover:bg-gray-100 border-b-4 border-black justify-center items-center"
+                onClick={logout}
+              >
+                Logout
+              </NavLink>
+            </>
+          ) : (
+            <></>
+          )}
         </ul>
       </div>
     </div>

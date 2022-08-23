@@ -2,17 +2,6 @@ import { useEffect, useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { useAuth } from "../util/auth";
 
-const styles = {
-  formControl: {
-    display: "flex",
-    padding: "0.25em",
-  },
-  label: {
-    flex: "0 1 6em",
-    paddingRight: "0.25em",
-  },
-};
-
 const initialFormState = {
   email: "",
   password: "",
@@ -37,6 +26,7 @@ export default function Login() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    console.log(formState);
     login(formState);
   };
 
@@ -48,19 +38,22 @@ export default function Login() {
 
   return (
     <div className="w-full max-w-lg">
-      <form className="bg-white px-4 pt-6 pb-8 mb-4">
+      <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
         <div className="mb-4">
           {/* <label
             class="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            for="email"
           >
-            Username
+            Email
           </label> */}
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="username"
-            type="text"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="email"
+            name="email"
+            type="email"
             placeholder="Email Address"
+            value={formState.email.value}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-4">
@@ -71,17 +64,20 @@ export default function Login() {
             Password
           </label> */}
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
+            name="password"
             type="password"
             placeholder="Password"
+            value={formState.password.value}
+            onChange={handleInputChange}
           />
         </div>
         <div className="flex flex-col items-center justify-between">
           <div className="w-full px-6 my-2">
             <button
               className="bg-blue-500 hover:bg-blue-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
             >
               Log In
             </button>

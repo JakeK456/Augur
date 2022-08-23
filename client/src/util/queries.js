@@ -5,7 +5,6 @@ export const ME = gql`
     me {
       _id
       lastLogin
-      username
       email
     }
   }

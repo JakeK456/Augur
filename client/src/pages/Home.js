@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       {/* TODO: display logged in user's username */}
-      <h1>Welcome {isLoggedIn ? user.username : "Guest"}!</h1>
+      <h1>Welcome {isLoggedIn ? user.email : "Guest"}!</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo cumque
         explicabo ipsum, facilis repellendus omnis amet in accusantium quisquam
