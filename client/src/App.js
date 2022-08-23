@@ -14,22 +14,29 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <AuthProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            {/* Use <RequiredAuth> for pages that should only be accessible to a
-            user that has logged in.*/}
-            <Route
-              path="/protected"
-              element={
-                <RequireAuth>
-                  <ProtectedPageExample />
-                </RequireAuth>
-              }
-            />
-          </Routes>
+          <div className="flex flex-col h-screen">
+            <Navbar />
+            <div className="grow p-2 flex flex-col bg-gray195">
+              {/* bg-white rounded-xl border-2 border-black min-h-full p-4 */}
+              <div className="bg-white rounded-xl border-2 border-black min-h-full p-4">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  {/* Use <RequiredAuth> for pages that should only be accessible to a
+                  user that has logged in.*/}
+                  <Route
+                    path="/protected"
+                    element={
+                      <RequireAuth>
+                        <ProtectedPageExample />
+                      </RequireAuth>
+                    }
+                  />
+                </Routes>
+              </div>
+            </div>
+          </div>
         </AuthProvider>
       </Router>
     </ApolloProvider>
