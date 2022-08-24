@@ -38,8 +38,8 @@ export default function SignUp() {
       <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
         <div className="mb-4">
           {/* <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="username"
           >
             Email Address
           </label> */}
@@ -55,8 +55,8 @@ export default function SignUp() {
         </div>
         <div className="mb-4">
           {/* <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="password"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
           >
             Password
           </label> */}
@@ -72,8 +72,8 @@ export default function SignUp() {
         </div>
         <div className="mb-4">
           {/* <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="password"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
           >
             Confirm Password
           </label> */}

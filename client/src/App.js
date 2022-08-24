@@ -4,7 +4,8 @@ import Navbar from "./components/Navbar";
 import RequireAuth from "./components/RequireAuth";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import ProtectedPageExample from "./pages/ProtectedPageExample";
+import Predict from "./pages/Predict";
+import Portfolio from "./pages/Portfolio";
 import SignUp from "./pages/SignUp";
 import { client } from "./util/apolloClient";
 import { AuthProvider } from "./util/auth";
@@ -18,18 +19,24 @@ function App() {
             <Navbar />
             <div className="z-0 grow p-2 flex flex-col bg-gray195">
               {/* bg-white rounded-xl border-2 border-black min-h-full p-4 */}
-              <div className="bg-white rounded-xl border-2 border-black min-h-full p-4">
+              <div className="bg-white rounded-xl border-2 border-black min-h-full p-4 shadow-md shadow-black ">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<SignUp />} />
-                  {/* Use <RequiredAuth> for pages that should only be accessible to a
-                  user that has logged in.*/}
                   <Route
-                    path="/protected"
+                    path="/predict"
                     element={
                       <RequireAuth>
-                        <ProtectedPageExample />
+                        <Predict />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="/portfolio"
+                    element={
+                      <RequireAuth>
+                        <Portfolio />
                       </RequireAuth>
                     }
                   />
