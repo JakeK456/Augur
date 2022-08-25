@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../util/auth";
-import "./Navbar.css";
 
 export default function Navbar() {
   const { isLoggedIn, logout } = useAuth();

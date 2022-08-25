@@ -7,6 +7,7 @@ const typeDefs = gql`
   type Query {
     "Find the logged in user."
     me: User
+    ticker(symbol: String!): TickerData
   }
 
   type Mutation {
@@ -23,6 +24,10 @@ const typeDefs = gql`
     _id: ID!
     email: String!
     lastLogin: Date!
+  }
+
+  type TickerData {
+    symbol: String!
   }
 `;
 

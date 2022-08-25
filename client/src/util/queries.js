@@ -9,3 +9,11 @@ export const ME = gql`
     }
   }
 `;
+
+export const TICKER = gql`
+  query ticker($symbol: String!) {
+    ticker(symbol: $symbol) {
+      symbol
+    }
+  }
+`;

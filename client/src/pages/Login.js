@@ -26,7 +26,6 @@ export default function Login() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(formState);
     login(formState);
   };
 

@@ -1,33 +1,70 @@
 import { useEffect, useState } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
+import { useLazyQuery } from "@apollo/client";
+import { TICKER } from "../util/queries";
+import Graph from "../components/Graph";
 
-const renderDate = (date) =>
-  `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-
-const initialFormState = {
-  ticker: "",
+const testData = {
+  labels: [1, 2, 3, 4, 5],
+  datasets: [
+    {
+      label: "Test",
+      data: [5, 2, 3, 4, 1],
+    },
+  ],
 };
 
 export default function Predict() {
-  const [formState, setFormState] = useState(initialFormState);
+  const [tickerInput, setTickerInput] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [graphData, setGraphData] = useState(testData);
+  const [getGraphData, { loading, error, data }] = useLazyQuery(TICKER);
 
   const handleInputChange = (evt) => {
-    const { name, value } = evt.target;
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
+    const value = evt.target.value.toUpperCase();
+    setTickerInput((prevState) => value);
   };
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(formState);
-    //login(formState);
+
+    getGraphData({
+      variables: { symbol: tickerInput },
+      fetchPolicy: "network-only",
+    });
+
+    console.log(tickerInput);
+    if (tickerInput === "GOOG") {
+      console.log({ ...graphData });
+      setGraphData((prevState) => ({
+        ...prevState,
+        datasets: [
+          {
+            label: "GOOG",
+            data: [4, 4, 4, 4, 4],
+          },
+        ],
+      }));
+    } else {
+      setGraphData((prevState) => ({
+        ...prevState,
+        datasets: [
+          {
+            label: "Test",
+            data: [2, 2, 2, 2, 2],
+          },
+        ],
+      }));
+    }
+    setSubmitted(true);
   };
 
   return (
     <div className="flex flex-col h-full">
       <h1 className="text-center text-xl underline">Make your Prediction</h1>
       {/* input */}
-      <div className="flex my-6">
+      <form className="flex my-6" onSubmit={handleSubmit}>
         <label
           className="flex shrink-0 basis-1/2 inline-block text-gray-700 text-lg justify-start items-center"
           htmlFor="tickerInput"
@@ -36,17 +73,17 @@ export default function Predict() {
         </label>
         <div className="flex basis-1/2">
           <input
-            className="grow w-0 h-8 py-2 px-3 shadow appearance-none border rounded  text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-right"
+            className="grow w-0 h-8 py-2 px-3 uppercase shadow appearance-none border rounded  text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-right"
             id="tickerInput"
             name="ticker"
             type="text"
             placeholder="AAPL"
-            value={formState.ticker.value}
+            value={tickerInput}
             onChange={handleInputChange}
           />
           <button
             className="grow-0 shrink-0 basis-8 ml-2 bg-blue-500 hover:bg-blue-700 shadow text-white rounded focus:outline-none focus:shadow-outline"
-            type="reset"
+            type="submit"
           >
             <IconContext.Provider
               value={{ style: { margin: "auto", width: "70%", height: "70%" } }}
@@ -57,34 +94,42 @@ export default function Predict() {
             </IconContext.Provider>
           </button>
         </div>
-      </div>
-      {/* chart */}
-      <div className="grow pb-8">
-        <h4 className="text-center text-sm">
-          Click on the chart to make a prediction
-        </h4>
-        <div className="w-full h-full border"></div>
-      </div>
-      {/* prediction display */}
-      <div className="my-4">
-        <h2 className="text-xl">Prediction:</h2>
-        <p className=" text-center"> APPL: $165 @ Jun 12, 2022</p>
-      </div>
-      {/* send / reset buttons */}
-      <div className="mx-8">
-        <button
-          className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
-          type="submit"
-        >
-          Send
-        </button>
-        <button
-          className="bg-red-500 hover:bg-red-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
-          type="reset"
-        >
-          Reset
-        </button>
-      </div>
+      </form>
+      {submitted ? (
+        <>
+          {/* chart */}
+          <div className="grow pb-8">
+            <h4 className="text-center text-sm">
+              Click on the chart to make a prediction
+            </h4>
+            <div className="w-full h-full border">
+              <Graph graphData={graphData} />
+            </div>
+          </div>
+          {/* prediction display */}
+          <div className="my-4">
+            <h2 className="text-xl">Prediction:</h2>
+            <p className=" text-center"> APPL: $165 @ Jun 12, 2022</p>
+          </div>
+          {/* send / reset buttons */}
+          <div className="mx-8">
+            <button
+              className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
+              type="button"
+            >
+              Send
+            </button>
+            <button
+              className="bg-red-500 hover:bg-red-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
+              type="button"
+            >
+              Reset
+            </button>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
