@@ -11,9 +11,9 @@ export const ME = gql`
 `;
 
 export const TICKER = gql`
-  query ticker($symbol: String!) {
-    ticker(symbol: $symbol) {
-      symbol
+  query ticker($ticker: String!) {
+    ticker(ticker: $ticker) {
+      ticker
     }
   }
 `;

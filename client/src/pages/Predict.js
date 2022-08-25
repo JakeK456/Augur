@@ -30,7 +30,7 @@ export default function Predict() {
     evt.preventDefault();
 
     getGraphData({
-      variables: { symbol: tickerInput },
+      variables: { ticker: tickerInput },
       fetchPolicy: "network-only",
     });
 

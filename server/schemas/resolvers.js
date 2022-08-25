@@ -5,6 +5,9 @@ const {
 const { User } = require("../models");
 const { signToken } = require("../util/auth");
 const { dateScalar } = require("./customScalars");
+const fetch = require("node-fetch");
+const moment = require("moment");
+require("dotenv").config();
 
 const resolvers = {
   Date: dateScalar,
@@ -18,9 +21,36 @@ const resolvers = {
       return User.findOne({ email: ctx.user.email });
     },
     ticker: async (parent, args) => {
-      const { symbol } = args;
-      console.log(symbol);
-      return { symbol };
+      const { ticker } = args;
+      const tMonthAgo = moment().subtract(1, "months").format("YYYY-MM-DD");
+      const tCurrent = moment().format("YYYY-MM-DD");
+      const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${tMonthAgo}/${tCurrent}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
+
+      const response = await fetch(pgUrl);
+      const rawdata = await response.json();
+
+      let x = [];
+      let y = [];
+
+      rawdata.results.forEach((obj) => {
+        y.push(obj.c);
+        x.push(obj.t);
+      });
+
+      const last = x[x.length - 1];
+      const xLength = x.length;
+      for (let i = 1; i < xLength; i++) {
+        x.push(last + i * 86400000);
+      }
+
+      const data = {
+        ticker,
+        x,
+        y,
+      };
+
+      console.log(data);
+      return { ticker };
     },
   },
   Mutation: {

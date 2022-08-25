@@ -7,7 +7,7 @@ const typeDefs = gql`
   type Query {
     "Find the logged in user."
     me: User
-    ticker(symbol: String!): TickerData
+    ticker(ticker: String!): TickerData
   }
 
   type Mutation {
@@ -27,7 +27,7 @@ const typeDefs = gql`
   }
 
   type TickerData {
-    symbol: String!
+    ticker: String!
   }
 `;
 
