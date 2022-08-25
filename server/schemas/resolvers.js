@@ -50,7 +50,7 @@ const resolvers = {
       };
 
       console.log(data);
-      return { ticker };
+      return data;
     },
   },
   Mutation: {

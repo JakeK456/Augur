@@ -14,6 +14,8 @@ export const TICKER = gql`
   query ticker($ticker: String!) {
     ticker(ticker: $ticker) {
       ticker
+      x
+      y
     }
   }
 `;

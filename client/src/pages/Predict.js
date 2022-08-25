@@ -18,8 +18,8 @@ const testData = {
 export default function Predict() {
   const [tickerInput, setTickerInput] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [graphData, setGraphData] = useState(testData);
-  const [getGraphData, { loading, error, data }] = useLazyQuery(TICKER);
+  const [graphData, setGraphData] = useState({});
+  const [getGraphData] = useLazyQuery(TICKER);
 
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
@@ -29,34 +29,24 @@ export default function Predict() {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    getGraphData({
+    const { loading, error, data } = await getGraphData({
       variables: { ticker: tickerInput },
       fetchPolicy: "network-only",
     });
 
-    console.log(tickerInput);
-    if (tickerInput === "GOOG") {
-      console.log({ ...graphData });
-      setGraphData((prevState) => ({
-        ...prevState,
-        datasets: [
-          {
-            label: "GOOG",
-            data: [4, 4, 4, 4, 4],
-          },
-        ],
-      }));
-    } else {
-      setGraphData((prevState) => ({
-        ...prevState,
-        datasets: [
-          {
-            label: "Test",
-            data: [2, 2, 2, 2, 2],
-          },
-        ],
-      }));
-    }
+    console.log(data);
+    //setGraphData(data.ticker.ticker);
+
+    setGraphData({
+      labels: data.ticker.x,
+      datasets: [
+        {
+          label: data.ticker.ticker,
+          data: data.ticker.y,
+        },
+      ],
+    });
+
     setSubmitted(true);
   };
 

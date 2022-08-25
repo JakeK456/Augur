@@ -28,6 +28,8 @@ const typeDefs = gql`
 
   type TickerData {
     ticker: String!
+    x: [Float]!
+    y: [Float]!
   }
 `;
 
