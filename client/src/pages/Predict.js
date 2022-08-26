@@ -17,9 +17,10 @@ const testData = {
 
 export default function Predict() {
   const [tickerInput, setTickerInput] = useState("");
+  const [graphKey, setGraphKey] = useState("1");
   const [submitted, setSubmitted] = useState(false);
   const [graphData, setGraphData] = useState({});
-  const [getGraphData] = useLazyQuery(TICKER);
+  const [getTickerData] = useLazyQuery(TICKER);
 
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
@@ -29,24 +30,22 @@ export default function Predict() {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    const { loading, error, data } = await getGraphData({
+    const { loading, error, data } = await getTickerData({
       variables: { ticker: tickerInput },
       fetchPolicy: "network-only",
     });
-
-    console.log(data);
-    //setGraphData(data.ticker.ticker);
 
     setGraphData({
       labels: data.ticker.x,
       datasets: [
         {
-          label: data.ticker.ticker,
           data: data.ticker.y,
+          borderColor: "#34A853", // green
         },
       ],
     });
 
+    setGraphKey(Math.random().toString());
     setSubmitted(true);
   };
 
@@ -92,8 +91,8 @@ export default function Predict() {
             <h4 className="text-center text-sm">
               Click on the chart to make a prediction
             </h4>
-            <div className="w-full h-full border">
-              <Graph graphData={graphData} />
+            <div className="w-full h-full">
+              <Graph key={graphKey} graphData={graphData} />
             </div>
           </div>
           {/* prediction display */}

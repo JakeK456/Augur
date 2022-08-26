@@ -37,19 +37,12 @@ const resolvers = {
         x.push(obj.t);
       });
 
-      const last = x[x.length - 1];
-      const xLength = x.length;
-      for (let i = 1; i < xLength; i++) {
-        x.push(last + i * 86400000);
-      }
-
       const data = {
         ticker,
         x,
         y,
       };
 
-      console.log(data);
       return data;
     },
   },
