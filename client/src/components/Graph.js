@@ -1,14 +1,20 @@
-import { ReactChart, Line } from "react-chartjs-2";
+import { ReactChart, Line, getDatasetAtEvent } from "react-chartjs-2";
 import { Chart } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import moment from "moment";
 
 Chart.register(zoomPlugin);
 
+const validateClick = (x) => {
+  return x > moment().format("x");
+};
+
 export default function Graph({ graphData }) {
   const [data, setData] = useState(graphData);
+  const chartRef = useRef();
   console.log(data);
   const options = {
     scales: {
@@ -53,25 +59,33 @@ export default function Graph({ graphData }) {
         },
       },
     },
-    onClick: (e) => {
-      setData((prevData) => ({
-        ...prevData,
-        datasets: [
-          prevData.datasets[0],
-          {
-            label: "Test2",
-            data: [5, 2, 3, 4, 1],
-          },
-        ],
-      }));
+    onClick: (event) => {
+      const clickX = Math.round(
+        chartRef.current.scales.x.getValueForPixel(event.x)
+      );
+      const clickY =
+        Math.round(chartRef.current.scales.y.getValueForPixel(event.y) * 100) /
+        100;
+
+      const validClick = validateClick(clickX);
+
+      if (validClick) {
+        console.log(clickX, " ", clickY);
+      }
+      // setData((prevData) => ({
+      //   ...prevData,
+      //   datasets: [
+      //     prevData.datasets[0],
+      //     {
+      //       label: "Test2",
+      //       data: [5, 2, 3, 4, 1],
+      //     },
+      //   ],
+      // }));
     },
   };
 
-  return (
-    <div>
-      <Line data={data} options={options} />
-    </div>
-  );
+  return <Line ref={chartRef} data={data} options={options} />;
 }
 
 //borderColor: "#EA4335", // red
