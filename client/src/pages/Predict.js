@@ -48,7 +48,8 @@ export default function Predict() {
         },
         {
           data: [coords[coords.length - 1]],
-          borderColor: "#EA4335", // green
+          borderColor: "#a7a7a7", // green
+          borderDash: [5, 5],
         },
       ],
     });

@@ -16,7 +16,7 @@ const validateClick = (x) => {
 export default function Graph({ graphData }) {
   const [data, setData] = useState(graphData);
   const chartRef = useRef();
-  console.log(data);
+
   const options = {
     scales: {
       x: {
@@ -61,27 +61,44 @@ export default function Graph({ graphData }) {
       },
     },
     onClick: (event) => {
-      const clickX = Math.round(
-        chartRef.current.scales.x.getValueForPixel(event.x)
-      );
-      const clickY =
-        Math.round(chartRef.current.scales.y.getValueForPixel(event.y) * 100) /
-        100;
+      const click = {
+        x: Math.round(chartRef.current.scales.x.getValueForPixel(event.x)),
+        y:
+          Math.round(
+            chartRef.current.scales.y.getValueForPixel(event.y) * 100
+          ) / 100,
+      };
 
-      const validClick = validateClick(clickX);
+      var gradient = chartRef.current.ctx.createLinearGradient(0, 0, 0, 400);
+      gradient.addColorStop(0, "rgba(250,174,50,1)");
+      gradient.addColorStop(1, "rgba(250,174,50,0)");
+
+      const validClick = validateClick(click.x);
 
       if (validClick) {
         setData((prevData) => {
           const newData = cloneDeep(prevData);
-          newData.datasets[1].data.push({ x: clickX, y: clickY });
+          appendToPredictionArray(newData.datasets[1].data, click);
           return newData;
         });
       }
+      console.log(data);
     },
   };
 
   return <Line ref={chartRef} data={data} options={options} />;
 }
+
+const appendToPredictionArray = (array, dataPoint) => {
+  let midpoints = [];
+  for (let index = 0; index < array.length - 1; index++) {
+    midpoints.push(Math.ceil((array[index].x + array[index + 1].x) / 2));
+  }
+
+  if (dataPoint.x > array[array.length - 1].x) {
+    array.push(dataPoint);
+  }
+};
 
 //borderColor: "#EA4335", // red
 //borderColor: "#34A853", // green
