@@ -5,6 +5,7 @@ import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
 import { useEffect, useState, useRef } from "react";
 import moment from "moment";
+import cloneDeep from "lodash/cloneDeep";
 
 Chart.register(zoomPlugin);
 
@@ -70,18 +71,12 @@ export default function Graph({ graphData }) {
       const validClick = validateClick(clickX);
 
       if (validClick) {
-        console.log(clickX, " ", clickY);
+        setData((prevData) => {
+          const newData = cloneDeep(prevData);
+          newData.datasets[1].data.push({ x: clickX, y: clickY });
+          return newData;
+        });
       }
-      // setData((prevData) => ({
-      //   ...prevData,
-      //   datasets: [
-      //     prevData.datasets[0],
-      //     {
-      //       label: "Test2",
-      //       data: [5, 2, 3, 4, 1],
-      //     },
-      //   ],
-      // }));
     },
   };
 

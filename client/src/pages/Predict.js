@@ -35,12 +35,20 @@ export default function Predict() {
       fetchPolicy: "network-only",
     });
 
+    let coords = data.ticker.x
+      .map((v, i) => [v, data.ticker.y[i]])
+      .map(([x, y]) => ({ x, y }));
+
     setGraphData({
       labels: data.ticker.x,
       datasets: [
         {
-          data: data.ticker.y,
+          data: coords,
           borderColor: "#34A853", // green
+        },
+        {
+          data: [coords[coords.length - 1]],
+          borderColor: "#EA4335", // green
         },
       ],
     });
