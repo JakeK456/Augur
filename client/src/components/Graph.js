@@ -72,6 +72,9 @@ export default function Graph({ graphData, setGraphData }) {
           mode: "xy",
         },
       },
+      tooltip: {
+        enabled: false,
+      },
     },
     onClick: (event) => {
       const click = {
@@ -86,7 +89,6 @@ export default function Graph({ graphData, setGraphData }) {
 
       if (validClick) {
         setGraphData((prevData) => {
-          console.log(prevData);
           const newData = cloneDeep(prevData);
           appendToPredictionArray(newData.datasets[1].data, click);
           return newData;

@@ -11,8 +11,8 @@ export const ME = gql`
 `;
 
 export const TICKER = gql`
-  query ticker($ticker: String!) {
-    ticker(ticker: $ticker) {
+  query ticker($ticker: String!, $timeSpan: String!) {
+    ticker(ticker: $ticker, timeSpan: $timeSpan) {
       ticker
       x
       y

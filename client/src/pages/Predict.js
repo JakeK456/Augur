@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useLazyQuery } from "@apollo/client";
 import { TICKER } from "../util/queries";
 import Graph from "../components/Graph";
+import TimeSpanBar from "../components/TimeSpanBar";
+
+const DEFAULT_TIME_SPAN = "1M";
 
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
@@ -18,13 +21,18 @@ export default function Predict() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    await fetchGraphData(DEFAULT_TIME_SPAN);
+  };
+
+  const fetchGraphData = async (timeSpan) => {
+    console.log(timeSpan);
     const { loading, error, data } = await getTickerData({
-      variables: { ticker: tickerInput },
+      variables: { ticker: tickerInput, timeSpan: timeSpan },
       fetchPolicy: "network-only",
     });
     const formattedData = formatDataForGraph(data);
     setGraphData(formattedData);
-    setGraphKey(data.ticker.ticker);
+    setGraphKey(data.ticker.ticker.concat(timeSpan));
   };
 
   return (
@@ -65,11 +73,10 @@ export default function Predict() {
       {graphData ? (
         <>
           {/* chart */}
-          <div className="grow pb-8">
-            <h4 className="text-center text-sm">
-              Click on the chart to make a prediction
-            </h4>
-            <div className="w-full h-full">
+          <div className="pb-8">
+            <TimeSpanBar fetchGraphData={fetchGraphData} />
+
+            <div className="w-full pt-4">
               <Graph
                 key={graphKey}
                 graphData={graphData}
@@ -80,16 +87,17 @@ export default function Predict() {
           {/* send / reset buttons */}
           <div className="mx-8">
             <button
+              className="bg-slate-400 hover:bg-gray-400 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
+              type="button"
+              onClick={handleSubmit}
+            >
+              Clear
+            </button>
+            <button
               className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
               type="button"
             >
               Send
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
-              type="button"
-            >
-              Reset
             </button>
           </div>
         </>

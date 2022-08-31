@@ -8,6 +8,7 @@ const { dateScalar } = require("./customScalars");
 const fetch = require("node-fetch");
 const moment = require("moment");
 require("dotenv").config();
+const { convertLabelToTimeSpan } = require("../util/convertTimeSpan");
 
 const resolvers = {
   Date: dateScalar,
@@ -21,8 +22,13 @@ const resolvers = {
       return User.findOne({ email: ctx.user.email });
     },
     ticker: async (parent, args) => {
-      const { ticker } = args;
-      const tMonthAgo = moment().subtract(1, "months").format("YYYY-MM-DD");
+      const { ticker, timeSpan } = args;
+
+      const { multiplier, span } = convertLabelToTimeSpan(timeSpan);
+
+      const tMonthAgo = moment()
+        .subtract(multiplier, span)
+        .format("YYYY-MM-DD");
       const tCurrent = moment().format("YYYY-MM-DD");
       const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${tMonthAgo}/${tCurrent}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
 
