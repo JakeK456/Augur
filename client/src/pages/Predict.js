@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useLazyQuery } from "@apollo/client";
@@ -6,13 +6,21 @@ import { TICKER } from "../util/queries";
 import Graph from "../components/Graph";
 import TimeSpanBar from "../components/TimeSpanBar";
 
-const DEFAULT_TIME_SPAN = "1M";
-
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
   const [tickerInput, setTickerInput] = useState("");
   const [graphData, setGraphData] = useState();
   const [graphKey, setGraphKey] = useState(); // Needed as workaround to refresh graph "options" for axis scaling
+  const [timeSpan, setTimeSpan] = useState("6M");
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      fetchGraphData();
+    } else {
+      isMounted.current = true;
+    }
+  }, [timeSpan]);
 
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
@@ -21,11 +29,10 @@ export default function Predict() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await fetchGraphData(DEFAULT_TIME_SPAN);
+    await fetchGraphData(timeSpan);
   };
 
-  const fetchGraphData = async (timeSpan) => {
-    console.log(timeSpan);
+  const fetchGraphData = async () => {
     const { loading, error, data } = await getTickerData({
       variables: { ticker: tickerInput, timeSpan: timeSpan },
       fetchPolicy: "network-only",
@@ -74,7 +81,7 @@ export default function Predict() {
         <>
           {/* chart */}
           <div className="pb-8">
-            <TimeSpanBar fetchGraphData={fetchGraphData} />
+            <TimeSpanBar setTimeSpan={setTimeSpan} />
 
             <div className="w-full pt-4">
               <Graph
@@ -89,7 +96,7 @@ export default function Predict() {
             <button
               className="bg-slate-400 hover:bg-gray-400 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
               type="button"
-              onClick={handleSubmit}
+              onClick={fetchGraphData}
             >
               Clear
             </button>
