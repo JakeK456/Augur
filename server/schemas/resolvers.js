@@ -37,13 +37,7 @@ const resolvers = {
         x.push(obj.t);
       });
 
-      const data = {
-        ticker,
-        x,
-        y,
-      };
-
-      return data;
+      return { ticker, x, y };
     },
   },
   Mutation: {

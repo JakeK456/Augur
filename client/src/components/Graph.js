@@ -1,9 +1,9 @@
-import { ReactChart, Line, getDatasetAtEvent } from "react-chartjs-2";
+import { ReactChart, Line } from "react-chartjs-2";
 import { Chart } from "chart.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import moment from "moment";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -13,10 +13,8 @@ const validateClick = (x) => {
   return x > moment().format("x");
 };
 
-export default function Graph({ graphData }) {
-  const [data, setData] = useState(graphData);
+export default function Graph({ graphData, setGraphData }) {
   const chartRef = useRef();
-
   const options = {
     scales: {
       x: {
@@ -29,12 +27,27 @@ export default function Graph({ graphData }) {
         ticks: {
           color: "#D3D3D3",
         },
+        min: chartRef.current
+          ? chartRef.current.scales.x.min
+          : graphData.datasets[0].data[0].x,
+        max: chartRef.current
+          ? chartRef.current.scales.x.max
+          : graphData.datasets[0].data[graphData.datasets[0].data.length - 1].x,
       },
       y: {
         ticks: {
           color: "#D3D3D3",
         },
+        min: chartRef.current
+          ? chartRef.current.scales.y.min
+          : graphData.datasets[0].data.hasMin("y").y,
+        max: chartRef.current
+          ? chartRef.current.scales.y.max
+          : graphData.datasets[0].data.hasMax("y").y,
       },
+    },
+    animation: {
+      duration: 0,
     },
     elements: {
       point: {
@@ -69,78 +82,46 @@ export default function Graph({ graphData }) {
           ) / 100,
       };
 
-      var gradient = chartRef.current.ctx.createLinearGradient(0, 0, 0, 400);
-      gradient.addColorStop(0, "rgba(250,174,50,1)");
-      gradient.addColorStop(1, "rgba(250,174,50,0)");
-
       const validClick = validateClick(click.x);
 
       if (validClick) {
-        setData((prevData) => {
+        setGraphData((prevData) => {
+          console.log(prevData);
           const newData = cloneDeep(prevData);
           appendToPredictionArray(newData.datasets[1].data, click);
           return newData;
         });
       }
-      console.log(data);
     },
   };
 
-  return <Line ref={chartRef} data={data} options={options} />;
+  return <Line ref={chartRef} data={graphData} options={options} />;
 }
 
 const appendToPredictionArray = (array, dataPoint) => {
-  let midpoints = [];
-  for (let index = 0; index < array.length - 1; index++) {
-    midpoints.push(Math.ceil((array[index].x + array[index + 1].x) / 2));
-  }
-
   if (dataPoint.x > array[array.length - 1].x) {
     array.push(dataPoint);
   }
 };
 
-//borderColor: "#EA4335", // red
-//borderColor: "#34A853", // green
+// eslint-disable-next-line no-extend-native
+Array.prototype.hasMin = function (attrib) {
+  return (
+    (this.length &&
+      this.reduce(function (prev, curr) {
+        return prev[attrib] < curr[attrib] ? prev : curr;
+      })) ||
+    null
+  );
+};
 
-// const canvasPosition = Chart.helpers.getRelativePosition(e, chart);
-//       const clickX = Math.round(
-//         chart.scales.x.getValueForPixel(canvasPosition.x)
-//       );
-//       const clickY =
-//         Math.round(
-//           chart.scales.y.getValueForPixel(canvasPosition.y) * 100
-//         ) / 100;
-
-//       const validClick = validateClick(clickX);
-//       const predDate = moment(clickX, "x").format("MMM D");
-
-//       if (validClick) {
-//         predictionPreview.innerHTML = `
-//         <h5 id="prediction-header">Prediction</h5>
-//         <h6>${ticker}:  $${clickY} on ${predDate}</h6>
-//         <button type="button" class="btn btn-primary" id="predict-btn">Predict</button>`;
-//         document
-//           .getElementById("predict-btn")
-//           .addEventListener("click", async () => {
-//             try {
-//               const predictionData = {
-//                 ticker,
-//                 start_price: currentPrice.textContent,
-//                 start_time: moment().format("x"),
-//                 predicted_price: clickY,
-//                 predicted_time: clickX,
-//               };
-//               const response = await fetch("/api/prediction", {
-//                 method: "POST",
-//                 body: JSON.stringify(predictionData),
-//                 headers: {
-//                   "Content-Type": "application/json; charset=UTF-8",
-//                 },
-//               });
-//             } catch (err) {
-//               console.log(err);
-//             }
-//             location.replace("/portfolio");
-//           });
-//       }
+// eslint-disable-next-line no-extend-native
+Array.prototype.hasMax = function (attrib) {
+  return (
+    (this.length &&
+      this.reduce(function (prev, curr) {
+        return prev[attrib] > curr[attrib] ? prev : curr;
+      })) ||
+    null
+  );
+};
