@@ -24,13 +24,12 @@ const resolvers = {
     ticker: async (parent, args) => {
       const { ticker, timeSpan } = args;
 
-      const { multiplier, span } = convertLabelToTimeSpan(timeSpan);
+      const { multiplier, time, subtract, span } =
+        convertLabelToTimeSpan(timeSpan);
 
-      const tMonthAgo = moment()
-        .subtract(multiplier, span)
-        .format("YYYY-MM-DD");
+      const tAgo = moment().subtract(subtract, span).format("YYYY-MM-DD");
       const tCurrent = moment().format("YYYY-MM-DD");
-      const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${tMonthAgo}/${tCurrent}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
+      const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${multiplier}/${time}/${tAgo}/${tCurrent}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
 
       const response = await fetch(pgUrl);
       const rawdata = await response.json();
@@ -74,6 +73,9 @@ const resolvers = {
       user.lastLogin = Date.now();
       await user.save();
       return { token, user };
+    },
+    makePrediction: async (parent, args) => {
+      console.log(args);
     },
   },
 };

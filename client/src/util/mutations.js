@@ -15,3 +15,11 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const MAKE_PREDICTION = gql`
+  mutation MakePrediction($ticker: String!, $data: [CoordsInput!]!) {
+    makePrediction(ticker: $ticker, data: $data) {
+      ticker
+    }
+  }
+`;

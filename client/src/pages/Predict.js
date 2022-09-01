@@ -1,13 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { TICKER } from "../util/queries";
 import Graph from "../components/Graph";
 import TimeSpanBar from "../components/TimeSpanBar";
+import { MAKE_PREDICTION } from "../util/mutations";
 
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
+  const [makePrediction] = useMutation(MAKE_PREDICTION);
   const [tickerInput, setTickerInput] = useState("");
   const [graphData, setGraphData] = useState();
   const [graphKey, setGraphKey] = useState(); // Needed as workaround to refresh graph "options" for axis scaling
@@ -40,6 +42,24 @@ export default function Predict() {
     const formattedData = formatDataForGraph(data);
     setGraphData(formattedData);
     setGraphKey(data.ticker.ticker.concat(timeSpan));
+  };
+
+  const handlePredictionSubmit = async () => {
+    try {
+      // retrieve prediction array and ticker symbol from state
+      const ticker = graphData.ticker;
+      const data = graphData.datasets[1].data;
+      console.log(ticker, data);
+
+      // call mutation to send to DB
+      await makePrediction({ variables: { ticker, data } });
+
+      // clear prediction from graph
+
+      console.log("sending prediction!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -103,6 +123,7 @@ export default function Predict() {
             <button
               className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
               type="button"
+              onClick={handlePredictionSubmit}
             >
               Send
             </button>
@@ -128,6 +149,7 @@ const formatDataForGraph = (data) => {
   };
 
   return {
+    ticker: data.ticker.ticker,
     labels: data.ticker.x,
     datasets: [
       {
