@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { TICKER } from "../util/queries";
 import Graph from "../components/Graph";
 import TimeSpanBar from "../components/TimeSpanBar";
 import { MAKE_PREDICTION } from "../util/mutations";
+import { ME } from "../util/queries";
 
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
@@ -15,6 +16,11 @@ export default function Predict() {
   const [graphKey, setGraphKey] = useState(); // Needed as workaround to refresh graph "options" for axis scaling
   const [timeSpan, setTimeSpan] = useState("6M");
   const isMounted = useRef(false);
+
+  const me = useQuery(ME, {
+    // skip cache for demonstration
+    fetchPolicy: "network-only",
+  });
 
   useEffect(() => {
     if (isMounted.current) {
@@ -53,7 +59,7 @@ export default function Predict() {
 
       // call mutation to send to DB
       const retval = await makePrediction({
-        variables: { ticker, coordinates },
+        variables: { userId: me.data.me._id, ticker, coordinates },
       });
       console.log(retval);
       // clear prediction from graph

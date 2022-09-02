@@ -17,8 +17,16 @@ export const LOGIN = gql`
 `;
 
 export const MAKE_PREDICTION = gql`
-  mutation MakePrediction($ticker: String!, $coordinates: [CoordsInput!]!) {
-    makePrediction(ticker: $ticker, coordinates: $coordinates) {
+  mutation MakePrediction(
+    $userId: String!
+    $ticker: String!
+    $coordinates: [CoordsInput!]!
+  ) {
+    makePrediction(
+      userId: $userId
+      ticker: $ticker
+      coordinates: $coordinates
+    ) {
       ticker
     }
   }

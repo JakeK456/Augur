@@ -13,7 +13,11 @@ const typeDefs = gql`
   type Mutation {
     createUser(email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    makePrediction(ticker: String!, coordinates: [CoordsInput!]!): Prediction
+    makePrediction(
+      userId: String!
+      ticker: String!
+      coordinates: [CoordsInput!]!
+    ): Prediction
   }
 
   type Auth {

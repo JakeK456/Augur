@@ -1,6 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const predictionSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
   ticker: {
     type: String,
     required: true,
