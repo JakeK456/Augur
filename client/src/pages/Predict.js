@@ -48,12 +48,14 @@ export default function Predict() {
     try {
       // retrieve prediction array and ticker symbol from state
       const ticker = graphData.ticker;
-      const data = graphData.datasets[1].data;
-      console.log(ticker, data);
+      const coordinates = graphData.datasets[1].data;
+      console.log(ticker, coordinates);
 
       // call mutation to send to DB
-      await makePrediction({ variables: { ticker, data } });
-
+      const retval = await makePrediction({
+        variables: { ticker, coordinates },
+      });
+      console.log(retval);
       // clear prediction from graph
 
       console.log("sending prediction!");

@@ -2,7 +2,7 @@ const {
   AuthenticationError,
   UserInputError,
 } = require("apollo-server-express");
-const { User } = require("../models");
+const { User, Prediction } = require("../models");
 const { signToken } = require("../util/auth");
 const { dateScalar } = require("./customScalars");
 const fetch = require("node-fetch");
@@ -75,7 +75,9 @@ const resolvers = {
       return { token, user };
     },
     makePrediction: async (parent, args) => {
-      console.log(args);
+      const user = await Prediction.create({ ...args });
+      console.log(args.coordinates);
+      return { ...args };
     },
   },
 };
