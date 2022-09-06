@@ -15,6 +15,7 @@ const validateClick = (x) => {
 
 export default function Graph({ graphData, setGraphData }) {
   const chartRef = useRef();
+  console.log(graphData);
   const options = {
     scales: {
       x: {
@@ -32,7 +33,7 @@ export default function Graph({ graphData, setGraphData }) {
           : graphData.datasets[0].data[0].x,
         max: chartRef.current
           ? chartRef.current.scales.x.max
-          : graphData.datasets[0].data[graphData.datasets[0].data.length - 1].x,
+          : addOneThirdToXAxis(graphData.datasets[0].data),
       },
       y: {
         ticks: {
@@ -126,4 +127,11 @@ Array.prototype.hasMax = function (attrib) {
       })) ||
     null
   );
+};
+
+const addOneThirdToXAxis = (array) => {
+  const diff = array[array.length - 1].x - array[0].x;
+  const slice = Math.round(diff / 2);
+  const addition = array[array.length - 1].x + slice;
+  return addition;
 };
