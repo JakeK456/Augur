@@ -4,6 +4,7 @@ import { IconContext } from "react-icons";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { TICKER } from "../util/queries";
 import Graph from "../components/Graph";
+import Modal from "../components/Modal";
 import TimeSpanBar from "../components/TimeSpanBar";
 import { MAKE_PREDICTION } from "../util/mutations";
 import { ME } from "../util/queries";
@@ -16,6 +17,8 @@ export default function Predict() {
   const [graphKey, setGraphKey] = useState(); // Needed as workaround to refresh graph "options" for axis scaling
   const [timeSpan, setTimeSpan] = useState("6M");
   const isMounted = useRef(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showAffirmModal, setShowAffirmModal] = useState(false);
 
   const me = useQuery(ME, {
     // skip cache for demonstration
@@ -51,20 +54,15 @@ export default function Predict() {
   };
 
   const handlePredictionSubmit = async () => {
+    setShowAffirmModal(true);
     try {
-      // retrieve prediction array and ticker symbol from state
       const ticker = graphData.ticker;
       const coordinates = graphData.datasets[1].data;
-      console.log(ticker, coordinates);
-
-      // call mutation to send to DB
       const retval = await makePrediction({
         variables: { userId: me.data.me._id, ticker, coordinates },
       });
-      console.log(retval);
-      // clear prediction from graph
-
-      console.log("sending prediction!");
+      console.log("sending prediction");
+      setGraphData(null);
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +94,9 @@ export default function Predict() {
             type="submit"
           >
             <IconContext.Provider
-              value={{ style: { margin: "auto", width: "70%", height: "70%" } }}
+              value={{
+                style: { margin: "auto", width: "70%", height: "70%" },
+              }}
             >
               <div>
                 <FiChevronsRight />
@@ -131,15 +131,31 @@ export default function Predict() {
             <button
               className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
               type="button"
-              onClick={handlePredictionSubmit}
+              onClick={() => setShowConfirmModal(true)}
             >
               Send
             </button>
           </div>
         </>
-      ) : (
-        <></>
-      )}
+      ) : null}
+      {showConfirmModal ? (
+        <Modal
+          setShowModal={setShowConfirmModal}
+          header={"Confimation"}
+          body={"Are you sure you want to send this prediction?"}
+          confirmButton={{ text: "Confirm", action: handlePredictionSubmit }}
+          backButton={{ text: "Back" }}
+        />
+      ) : null}
+      {showAffirmModal ? (
+        <Modal
+          setShowModal={setShowAffirmModal}
+          header={"Success"}
+          body={"Prediction sent!"}
+          confirmButton={{ text: "Make Another Prediction" }}
+          backButton={{ text: "View Your Predictions" }}
+        />
+      ) : null}
     </div>
   );
 }
