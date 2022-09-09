@@ -28,7 +28,7 @@ export default function PortfolioDisplay() {
       variables: { ticker: searchInput },
       fetchPolicy: "network-only",
     });
-    setCardData(data);
+    setCardData(data.cards);
   };
 
   const handleCardClicked = (predictionId) => {
@@ -79,7 +79,7 @@ export default function PortfolioDisplay() {
             <h2 className="basis-1/3 text-center font-bold">Start Date</h2>
             <h2 className="basis-1/3 text-center font-bold">End Date</h2>
           </div>
-          {cardData.cards.map((card, index) => (
+          {cardData.map((card, index) => (
             <Card
               key={index}
               data={card}

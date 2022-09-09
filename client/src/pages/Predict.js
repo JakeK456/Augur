@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -7,6 +7,7 @@ import Graph from "../components/Graph";
 import Modal from "../components/Modal";
 import TimeSpanBar from "../components/TimeSpanBar";
 import { MAKE_PREDICTION } from "../util/mutations";
+import { useNavigate } from "react-router-dom";
 
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
@@ -18,6 +19,7 @@ export default function Predict() {
   const isMounted = useRef(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showAffirmModal, setShowAffirmModal] = useState(false);
+  const navigate = useNavigate();
 
   // needed to rerender graph when timespan bar is clicked.
   useEffect(() => {
@@ -62,6 +64,11 @@ export default function Predict() {
       console.log(error);
     }
   };
+
+  const viewPortfolioPage = useCallback(
+    () => navigate("/portfolio", { replace: true }),
+    [navigate]
+  );
 
   return (
     <div className="flex flex-col h-full">
@@ -148,7 +155,10 @@ export default function Predict() {
           header={"Success"}
           body={"Prediction sent!"}
           confirmButton={{ text: "Make Another Prediction" }}
-          backButton={{ text: "View Your Predictions" }}
+          backButton={{
+            text: "View Your Predictions",
+            action: viewPortfolioPage,
+          }}
         />
       ) : null}
     </div>
