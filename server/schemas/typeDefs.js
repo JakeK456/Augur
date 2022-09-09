@@ -8,15 +8,16 @@ const typeDefs = gql`
     "Find the logged in user."
     me: User
     ticker(ticker: String!, timeSpan: String!): TickerData
+    numPredictions: NumPredictions
   }
 
   type Mutation {
     createUser(email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     makePrediction(
-      userId: String!
       ticker: String!
       coordinates: [CoordsInput!]!
+      timeSpan: String!
     ): Prediction
   }
 
@@ -49,6 +50,10 @@ const typeDefs = gql`
   type Coords {
     x: Float!
     y: Float!
+  }
+
+  type NumPredictions {
+    numPredictions: Int!
   }
 `;
 

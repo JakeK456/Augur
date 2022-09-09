@@ -18,14 +18,14 @@ export const LOGIN = gql`
 
 export const MAKE_PREDICTION = gql`
   mutation MakePrediction(
-    $userId: String!
     $ticker: String!
     $coordinates: [CoordsInput!]!
+    $timeSpan: String!
   ) {
     makePrediction(
-      userId: $userId
       ticker: $ticker
       coordinates: $coordinates
+      timeSpan: $timeSpan
     ) {
       ticker
     }

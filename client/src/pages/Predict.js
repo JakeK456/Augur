@@ -25,6 +25,7 @@ export default function Predict() {
     fetchPolicy: "network-only",
   });
 
+  // needed to rerender graph when timespan bar is clicked.
   useEffect(() => {
     if (isMounted.current) {
       fetchGraphData();
@@ -40,7 +41,7 @@ export default function Predict() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await fetchGraphData(timeSpan);
+    fetchGraphData();
   };
 
   const fetchGraphData = async () => {
@@ -59,7 +60,7 @@ export default function Predict() {
       const ticker = graphData.ticker;
       const coordinates = graphData.datasets[1].data;
       const retval = await makePrediction({
-        variables: { userId: me.data.me._id, ticker, coordinates },
+        variables: { userId: me.data.me._id, ticker, coordinates, timeSpan },
       });
       console.log("sending prediction");
       setGraphData(null);

@@ -19,3 +19,11 @@ export const TICKER = gql`
     }
   }
 `;
+
+export const NUM_PREDICTIONS = gql`
+  query numPredictions {
+    numPredictions {
+      numPredictions
+    }
+  }
+`;

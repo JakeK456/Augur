@@ -19,6 +19,7 @@ const resolvers = {
       if (!ctx.user) {
         throw new AuthenticationError("Must be logged in.");
       }
+      console.log(User.findOne({ email: ctx.user.email }));
       return User.findOne({ email: ctx.user.email });
     },
     ticker: async (parent, args) => {
@@ -43,6 +44,13 @@ const resolvers = {
       });
 
       return { ticker, x, y };
+    },
+    numPredictions: async (parent, args, ctx) => {
+      if (!ctx.user) {
+        throw new AuthenticationError("Must be logged in.");
+      }
+      const count = await Prediction.countDocuments({ userId: ctx.user._id });
+      return { numPredictions: count };
     },
   },
   Mutation: {
@@ -74,9 +82,9 @@ const resolvers = {
       await user.save();
       return { token, user };
     },
-    makePrediction: async (parent, args) => {
-      const user = await Prediction.create({ ...args });
-      console.log(args.coordinates);
+    makePrediction: async (parent, args, ctx) => {
+      const user = await Prediction.create({ userId: ctx.user._id, ...args });
+      console.log("prediction received");
       return { ...args };
     },
   },

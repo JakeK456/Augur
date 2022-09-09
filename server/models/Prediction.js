@@ -11,6 +11,10 @@ const predictionSchema = new Schema({
     required: true,
   },
   coordinates: { type: Array, default: [] },
+  timeSpan: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -1,4 +1,4 @@
-export default function TimeSpanBar({ setTimeSpan, fetchGraphData }) {
+export default function TimeSpanBar({ setTimeSpan }) {
   const handleClickEvent = (event) => {
     if (event.target.type === "button") {
       setTimeSpan(event.target.textContent);
