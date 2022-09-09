@@ -9,6 +9,7 @@ const typeDefs = gql`
     me: User
     ticker(ticker: String!, timeSpan: String!): TickerData
     numPredictions: NumPredictions
+    cards(ticker: String!): [Card]
   }
 
   type Mutation {
@@ -54,6 +55,13 @@ const typeDefs = gql`
 
   type NumPredictions {
     numPredictions: Int!
+  }
+
+  type Card {
+    predictionId: String!
+    ticker: String!
+    startDate: Float!
+    endDate: Float!
   }
 `;
 

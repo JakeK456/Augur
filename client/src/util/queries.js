@@ -27,3 +27,14 @@ export const NUM_PREDICTIONS = gql`
     }
   }
 `;
+
+export const GET_CARDS = gql`
+  query cards($ticker: String!) {
+    cards(ticker: $ticker) {
+      predictionId
+      ticker
+      startDate
+      endDate
+    }
+  }
+`;

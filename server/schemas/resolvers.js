@@ -52,6 +52,25 @@ const resolvers = {
       const count = await Prediction.countDocuments({ userId: ctx.user._id });
       return { numPredictions: count };
     },
+    cards: async (parent, args, ctx) => {
+      const predictions = await Prediction.find({
+        userId: ctx.user._id,
+        ticker: args.ticker,
+      });
+      console.log(predictions);
+      console.log(
+        predictions[0].coordinates[predictions[0].coordinates.length - 1]
+      );
+
+      const retval = predictions.map((prediction) => ({
+        predictionId: prediction._id,
+        ticker: prediction.ticker,
+        startDate: prediction.createdAt,
+        endDate: prediction.coordinates[prediction.coordinates.length - 1].x,
+      }));
+      console.log(retval);
+      return retval;
+    },
   },
   Mutation: {
     createUser: async (parent, args) => {

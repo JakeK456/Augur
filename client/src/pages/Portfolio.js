@@ -1,13 +1,26 @@
 import { useQuery } from "@apollo/client";
 import { NUM_PREDICTIONS } from "../util/queries";
+import PortfolioDisplay from "../components/PortfolioDisplay";
 
 export default function Portfolio() {
-  const { data, loading } = useQuery(NUM_PREDICTIONS, {
+  const numPredictionsQuery = useQuery(NUM_PREDICTIONS, {
     // skip cache for demonstration
     fetchPolicy: "network-only",
   });
 
-  console.log(data);
+  let numPredictions;
+  if (!numPredictionsQuery.loading) {
+    numPredictions = numPredictionsQuery.data.numPredictions.numPredictions;
+  }
 
-  return <div></div>;
+  return (
+    <div>
+      {numPredictions ? (
+        <>
+          <p className="text-center">{`You've made ${numPredictions} predictions!`}</p>
+          <PortfolioDisplay />
+        </>
+      ) : null}
+    </div>
+  );
 }

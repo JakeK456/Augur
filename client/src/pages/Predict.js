@@ -1,13 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { TICKER } from "../util/queries";
 import Graph from "../components/Graph";
 import Modal from "../components/Modal";
 import TimeSpanBar from "../components/TimeSpanBar";
 import { MAKE_PREDICTION } from "../util/mutations";
-import { ME } from "../util/queries";
 
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
@@ -19,11 +18,6 @@ export default function Predict() {
   const isMounted = useRef(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showAffirmModal, setShowAffirmModal] = useState(false);
-
-  const me = useQuery(ME, {
-    // skip cache for demonstration
-    fetchPolicy: "network-only",
-  });
 
   // needed to rerender graph when timespan bar is clicked.
   useEffect(() => {
@@ -59,8 +53,8 @@ export default function Predict() {
     try {
       const ticker = graphData.ticker;
       const coordinates = graphData.datasets[1].data;
-      const retval = await makePrediction({
-        variables: { userId: me.data.me._id, ticker, coordinates, timeSpan },
+      await makePrediction({
+        variables: { ticker, coordinates, timeSpan },
       });
       console.log("sending prediction");
       setGraphData(null);
