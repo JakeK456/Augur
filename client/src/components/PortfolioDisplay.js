@@ -4,10 +4,12 @@ import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { GET_CARDS } from "../util/queries";
 import Card from "./Card";
+import GraphModal from "./GraphModal";
 
 export default function PortfolioDisplay() {
   const [searchInput, setSearchInput] = useState("");
   const [cardData, setCardData] = useState();
+  const [showGraphModal, setShowGraphModal] = useState(false);
   const [getCardData] = useLazyQuery(GET_CARDS);
   console.log(cardData);
   const handleInputChange = (evt) => {
@@ -27,6 +29,11 @@ export default function PortfolioDisplay() {
       fetchPolicy: "network-only",
     });
     setCardData(data);
+  };
+
+  const handleCardClicked = (predictionId) => {
+    setShowGraphModal(true);
+    console.log("up here", predictionId);
   };
 
   return (
@@ -64,9 +71,32 @@ export default function PortfolioDisplay() {
           </button>
         </div>
       </form>
-      {cardData
-        ? cardData.cards.map((card, index) => <Card key={index} data={card} />)
-        : null}
+
+      {cardData ? (
+        <>
+          <div className="flex flex-row">
+            <h2 className="basis-1/3 text-center font-bold">Ticker</h2>
+            <h2 className="basis-1/3 text-center font-bold">Start Date</h2>
+            <h2 className="basis-1/3 text-center font-bold">End Date</h2>
+          </div>
+          {cardData.cards.map((card, index) => (
+            <Card
+              key={index}
+              data={card}
+              handleCardClicked={handleCardClicked}
+            />
+          ))}
+        </>
+      ) : null}
+      {showGraphModal ? (
+        <GraphModal
+          setShowModal={setShowGraphModal}
+          header={"Confimation"}
+          body={"Are you sure you want to send this prediction?"}
+          confirmButton={{ text: "Confirm" }}
+          backButton={{ text: "Back" }}
+        />
+      ) : null}
     </div>
   );
 }
