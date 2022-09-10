@@ -2,15 +2,19 @@ import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
-import { GET_CARDS } from "../util/queries";
+import { GET_CARDS, GET_DISPLAY_GRAPH } from "../util/queries";
 import Card from "./Card";
 import GraphModal from "./GraphModal";
 
 export default function PortfolioDisplay() {
   const [searchInput, setSearchInput] = useState("");
   const [cardData, setCardData] = useState();
-  const [showGraphModal, setShowGraphModal] = useState(false);
+  const [graphModal, setGraphModal] = useState({
+    isShowing: false,
+    data: null,
+  });
   const [getCardData] = useLazyQuery(GET_CARDS);
+  const [getPredictionData] = useLazyQuery(GET_DISPLAY_GRAPH);
   console.log(cardData);
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
@@ -31,9 +35,17 @@ export default function PortfolioDisplay() {
     setCardData(data.cards);
   };
 
-  const handleCardClicked = (predictionId) => {
-    setShowGraphModal(true);
-    console.log("up here", predictionId);
+  const handleCardClicked = async (predictionId) => {
+    // get prediction data from db
+    const { loading, error, data } = await getPredictionData({
+      variables: { predictionId },
+      fetchPolicy: "network-only",
+    });
+
+    console.log(data);
+    // make api call for data
+    // formulate graph data
+    setGraphModal({ isShowing: true, data });
   };
 
   return (
@@ -88,15 +100,38 @@ export default function PortfolioDisplay() {
           ))}
         </>
       ) : null}
-      {showGraphModal ? (
-        <GraphModal
-          setShowModal={setShowGraphModal}
-          header={"Confimation"}
-          body={"Are you sure you want to send this prediction?"}
-          confirmButton={{ text: "Confirm" }}
-          backButton={{ text: "Back" }}
-        />
+      {graphModal.isShowing ? (
+        <GraphModal graphModal={graphModal} setGraphModal={setGraphModal} />
       ) : null}
     </div>
   );
 }
+
+const formatDataForGraph = (data) => {
+  let coords = data.ticker.x
+    .map((v, i) => [v, data.ticker.y[i]])
+    .map(([x, y]) => ({ x, y }));
+
+  const setLineColor = (array) => {
+    const red = "#EA4335";
+    const green = "#34A853";
+    if (array[0] < array[array.length - 1]) return green;
+    return red;
+  };
+
+  return {
+    ticker: data.ticker.ticker,
+    labels: data.ticker.x,
+    datasets: [
+      {
+        data: coords,
+        borderColor: setLineColor(data.ticker.y),
+      },
+      {
+        data: [coords[coords.length - 1]],
+        borderColor: "#a7a7a7", // grey
+        borderDash: [5, 5],
+      },
+    ],
+  };
+};

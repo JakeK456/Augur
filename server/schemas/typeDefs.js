@@ -10,6 +10,7 @@ const typeDefs = gql`
     ticker(ticker: String!, timeSpan: String!): TickerData
     numPredictions: NumPredictions
     cards(ticker: String!): [Card]
+    displayGraph(predictionId: String!): GraphData!
   }
 
   type Mutation {
@@ -62,6 +63,16 @@ const typeDefs = gql`
     ticker: String!
     startDate: Float!
     endDate: Float!
+  }
+
+  type GraphData {
+    datasets: [GraphDataset!]!
+  }
+
+  type GraphDataset {
+    data: [Coords!]!
+    borderColor: String!
+    borderDash: [Int]
   }
 `;
 

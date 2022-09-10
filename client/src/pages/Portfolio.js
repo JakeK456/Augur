@@ -17,7 +17,7 @@ export default function Portfolio() {
     <div>
       {numPredictions ? (
         <>
-          <p className="text-center">{`You've made ${numPredictions} predictions!`}</p>
+          <p className="text-center">{`You've made a total of ${numPredictions} predictions!`}</p>
           <PortfolioDisplay />
         </>
       ) : null}

@@ -9,6 +9,9 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 require("dotenv").config();
 const { convertLabelToTimeSpan } = require("../util/convertTimeSpan");
+const { raw } = require("express");
+
+const TIME_SPAN_MULTIPLIER = 4;
 
 const resolvers = {
   Date: dateScalar,
@@ -19,7 +22,6 @@ const resolvers = {
       if (!ctx.user) {
         throw new AuthenticationError("Must be logged in.");
       }
-      console.log(User.findOne({ email: ctx.user.email }));
       return User.findOne({ email: ctx.user.email });
     },
     ticker: async (parent, args) => {
@@ -57,19 +59,53 @@ const resolvers = {
         userId: ctx.user._id,
         ticker: args.ticker,
       });
-      console.log(predictions);
-      console.log(
-        predictions[0].coordinates[predictions[0].coordinates.length - 1]
-      );
-
       const retval = predictions.map((prediction) => ({
         predictionId: prediction._id,
         ticker: prediction.ticker,
         startDate: prediction.createdAt,
         endDate: prediction.coordinates[prediction.coordinates.length - 1].x,
       }));
-      console.log(retval);
       return retval;
+    },
+    // TODO!!!! MAKE SURE PREDICTION.LENGTH > 1 !!!
+    displayGraph: async (parent, args, ctx) => {
+      const prediction = await Prediction.findById(args.predictionId);
+      console.log(prediction);
+      const predictionStart = prediction.coordinates[0].x;
+      const predictionEnd =
+        prediction.coordinates[prediction.coordinates.length - 1].x;
+      const timeDiff = predictionEnd - predictionStart;
+      const timeSpan = timeDiff * TIME_SPAN_MULTIPLIER;
+
+      const tStart = moment(predictionEnd)
+        .subtract(timeSpan, "milliseconds")
+        .format("YYYY-MM-DD");
+      const tEnd = moment(predictionEnd).format("YYYY-MM-DD");
+      const multiplier = 1;
+      const time = "day";
+      const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${prediction.ticker}/range/${multiplier}/${time}/${tStart}/${tEnd}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
+
+      const response = await fetch(pgUrl);
+      const rawdata = await response.json();
+      console.log(rawdata);
+      let coords = [];
+      rawdata.results.forEach((obj) => {
+        coords.push({ x: obj.t, y: obj.c });
+      });
+      console.log(coords);
+
+      const graphData = {
+        datasets: [
+          { data: coords, borderColor: "#34A853", borderDash: [] },
+          {
+            data: prediction.coordinates,
+            borderColor: "#a7a7a7",
+            borderDash: [5, 5],
+          },
+        ],
+      };
+
+      return graphData;
     },
   },
   Mutation: {

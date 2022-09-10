@@ -38,3 +38,18 @@ export const GET_CARDS = gql`
     }
   }
 `;
+
+export const GET_DISPLAY_GRAPH = gql`
+  query displayGraph($predictionId: String!) {
+    displayGraph(predictionId: $predictionId) {
+      datasets {
+        data {
+          x
+          y
+        }
+        borderColor
+        borderDash
+      }
+    }
+  }
+`;
