@@ -26,6 +26,7 @@ export default function Graph({ graphData, setGraphData }) {
         },
         ticks: {
           color: "#D3D3D3",
+          maxTicksLimit: 7,
         },
         min: chartRef.current
           ? chartRef.current.scales.x.min
@@ -37,6 +38,9 @@ export default function Graph({ graphData, setGraphData }) {
       y: {
         ticks: {
           color: "#D3D3D3",
+          callback: function (val) {
+            return Math.floor(val);
+          },
         },
         min: chartRef.current
           ? chartRef.current.scales.y.min

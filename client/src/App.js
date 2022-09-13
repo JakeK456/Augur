@@ -15,11 +15,10 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <AuthProvider>
-          <div className="flex flex-col h-screen">
+          <div>
             <Navbar />
-            <div className="z-0 grow p-2 flex flex-col bg-gray195">
-              {/* bg-white rounded-xl border-2 border-black min-h-full p-4 */}
-              <div className="bg-white rounded-xl border-2 border-black min-h-full p-4 shadow-md shadow-black ">
+            <div>
+              <div>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
