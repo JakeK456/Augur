@@ -9,7 +9,6 @@ import cloneDeep from "lodash/cloneDeep";
 
 export default function DisplayGraph({ graphData }) {
   const chartRef = useRef();
-  console.log("graphData", graphData);
 
   const options = {
     scales: {

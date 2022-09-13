@@ -15,7 +15,6 @@ const validateClick = (x) => {
 
 export default function Graph({ graphData, setGraphData }) {
   const chartRef = useRef();
-  console.log(graphData);
   const options = {
     scales: {
       x: {

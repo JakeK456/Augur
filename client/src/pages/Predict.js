@@ -41,13 +41,18 @@ export default function Predict() {
   };
 
   const fetchGraphData = async () => {
-    const { loading, error, data } = await getTickerData({
-      variables: { ticker: tickerInput, timeSpan: timeSpan },
-      fetchPolicy: "network-only",
-    });
-    const formattedData = formatDataForGraph(data);
-    setGraphData(formattedData);
-    setGraphKey(data.ticker.ticker.concat(timeSpan));
+    try {
+      const { loading, error, data } = await getTickerData({
+        variables: { ticker: tickerInput, timeSpan: timeSpan },
+        fetchPolicy: "network-only",
+      });
+
+      const formattedData = formatDataForGraph(data);
+      setGraphData(formattedData);
+      setGraphKey(data.ticker.ticker.concat(timeSpan));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handlePredictionSubmit = async () => {

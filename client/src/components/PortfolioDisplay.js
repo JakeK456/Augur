@@ -15,7 +15,7 @@ export default function PortfolioDisplay() {
   });
   const [getCardData] = useLazyQuery(GET_CARDS);
   const [getPredictionData] = useLazyQuery(GET_DISPLAY_GRAPH);
-  console.log(cardData);
+
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
     setSearchInput((prevState) => value);
@@ -23,7 +23,6 @@ export default function PortfolioDisplay() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(searchInput);
     getCards();
   };
 
@@ -36,16 +35,14 @@ export default function PortfolioDisplay() {
   };
 
   const handleCardClicked = async (predictionId) => {
-    // get prediction data from db
     const { loading, error, data } = await getPredictionData({
       variables: { predictionId },
       fetchPolicy: "network-only",
     });
 
-    console.log(data);
-    // make api call for data
-    // formulate graph data
-    setGraphModal({ isShowing: true, data });
+    if (data) {
+      setGraphModal({ isShowing: true, data });
+    }
   };
 
   return (

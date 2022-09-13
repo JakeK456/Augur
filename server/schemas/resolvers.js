@@ -27,25 +27,38 @@ const resolvers = {
     ticker: async (parent, args) => {
       const { ticker, timeSpan } = args;
 
-      const { multiplier, time, subtract, span } =
-        convertLabelToTimeSpan(timeSpan);
+      if (ticker === "") {
+        console.log("ticker", ticker);
+        throw new UserInputError(`Input cannot be empty string.`);
+      }
 
-      const tAgo = moment().subtract(subtract, span).format("YYYY-MM-DD");
-      const tCurrent = moment().format("YYYY-MM-DD");
-      const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${multiplier}/${time}/${tAgo}/${tCurrent}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
+      try {
+        const { multiplier, time, subtract, span } =
+          convertLabelToTimeSpan(timeSpan);
+        const tAgo = moment().subtract(subtract, span).format("YYYY-MM-DD");
+        const tCurrent = moment().format("YYYY-MM-DD");
+        const pgUrl = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${multiplier}/${time}/${tAgo}/${tCurrent}?adjusted=true&sort=asc&apiKey=${process.env.PG_KEY}`;
+        const response = await fetch(pgUrl);
+        const rawdata = await response.json();
 
-      const response = await fetch(pgUrl);
-      const rawdata = await response.json();
+        if (response.status === 429) {
+          throw new Error(
+            "API call limited to 5 calls per minute... please wait."
+          );
+        }
 
-      let x = [];
-      let y = [];
+        let x = [];
+        let y = [];
 
-      rawdata.results.forEach((obj) => {
-        y.push(obj.c);
-        x.push(obj.t);
-      });
+        rawdata.results.forEach((obj) => {
+          y.push(obj.c);
+          x.push(obj.t);
+        });
 
-      return { ticker, x, y };
+        return { ticker, x, y };
+      } catch (error) {
+        throw error;
+      }
     },
     numPredictions: async (parent, args, ctx) => {
       if (!ctx.user) {
@@ -70,7 +83,6 @@ const resolvers = {
     // TODO!!!! MAKE SURE PREDICTION.LENGTH > 1 !!!
     displayGraph: async (parent, args, ctx) => {
       const prediction = await Prediction.findById(args.predictionId);
-      console.log(prediction);
       const predictionStart = prediction.coordinates[0].x;
       const predictionEnd =
         prediction.coordinates[prediction.coordinates.length - 1].x;
@@ -87,12 +99,11 @@ const resolvers = {
 
       const response = await fetch(pgUrl);
       const rawdata = await response.json();
-      console.log(rawdata);
+
       let coords = [];
       rawdata.results.forEach((obj) => {
         coords.push({ x: obj.t, y: obj.c });
       });
-      console.log(coords);
 
       const graphData = {
         datasets: [
@@ -139,7 +150,6 @@ const resolvers = {
     },
     makePrediction: async (parent, args, ctx) => {
       const user = await Prediction.create({ userId: ctx.user._id, ...args });
-      console.log("prediction received");
       return { ...args };
     },
   },
