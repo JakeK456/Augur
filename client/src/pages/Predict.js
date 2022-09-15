@@ -53,11 +53,14 @@ export default function Predict() {
     }
   };
 
+  console.log(graphData);
+
   const handlePredictionSubmit = async () => {
     setShowAffirmModal(true);
     try {
       const ticker = graphData.ticker;
       const coordinates = graphData.datasets[1].data;
+      console.log(coordinates);
       await makePrediction({
         variables: { ticker, coordinates, timeSpan },
       });
