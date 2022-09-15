@@ -8,7 +8,7 @@ import GraphModal from "./GraphModal";
 
 export default function PortfolioDisplay() {
   const [searchInput, setSearchInput] = useState("");
-  const [cardData, setCardData] = useState();
+  const [cards, setCards] = useState([]);
   const [graphModal, setGraphModal] = useState({
     isShowing: false,
     data: null,
@@ -18,7 +18,7 @@ export default function PortfolioDisplay() {
 
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
-    setSearchInput((prevState) => value);
+    setSearchInput(value);
   };
 
   const handleSubmit = async (evt) => {
@@ -31,7 +31,7 @@ export default function PortfolioDisplay() {
       variables: { ticker: searchInput },
       fetchPolicy: "network-only",
     });
-    setCardData(data.cards);
+    setCards(data.cards);
   };
 
   const handleCardClicked = async (predictionId) => {
@@ -81,14 +81,14 @@ export default function PortfolioDisplay() {
         </div>
       </form>
 
-      {cardData ? (
+      {cards.length > 0 ? (
         <>
           <div className="flex flex-row">
             <h2 className="basis-1/3 text-center font-bold">Ticker</h2>
             <h2 className="basis-1/3 text-center font-bold">Start Date</h2>
             <h2 className="basis-1/3 text-center font-bold">End Date</h2>
           </div>
-          {cardData.map((card, index) => (
+          {cards.map((card, index) => (
             <Card
               key={index}
               data={card}

@@ -71,7 +71,9 @@ const resolvers = {
       const predictions = await Prediction.find({
         userId: ctx.user._id,
         ticker: args.ticker,
-      });
+      })
+        .sort({ createdAt: -1 })
+        .limit(12);
       const retval = predictions.map((prediction) => ({
         predictionId: prediction._id,
         ticker: prediction.ticker,

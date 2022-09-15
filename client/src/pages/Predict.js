@@ -63,7 +63,6 @@ export default function Predict() {
       await makePrediction({
         variables: { ticker, coordinates, timeSpan },
       });
-      console.log("sending prediction");
       setGraphData(null);
     } catch (error) {
       console.log(error);
