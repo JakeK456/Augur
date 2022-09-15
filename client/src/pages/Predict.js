@@ -1,13 +1,12 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { FiChevronsRight } from "react-icons/fi";
-import { IconContext } from "react-icons";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { TICKER } from "../util/queries";
+import { MAKE_PREDICTION } from "../util/mutations";
+import { useNavigate } from "react-router-dom";
 import PredictionGraph from "../components/Graph/PredictionGraph";
 import Modal from "../components/Modal";
 import TimeSpanBar from "../components/TimeSpanBar";
-import { MAKE_PREDICTION } from "../util/mutations";
-import { useNavigate } from "react-router-dom";
+import BlueChevronButton from "../components/Buttons/BlueChevronButton";
 
 export default function Predict() {
   const [getTickerData] = useLazyQuery(TICKER);
@@ -58,7 +57,6 @@ export default function Predict() {
     try {
       const ticker = graphData.ticker;
       const coordinates = graphData.datasets[1].data;
-      console.log(coordinates);
       await makePrediction({
         variables: { ticker, coordinates, timeSpan },
       });
@@ -94,20 +92,7 @@ export default function Predict() {
             value={tickerInput}
             onChange={handleInputChange}
           />
-          <button
-            className="grow-0 shrink-0 basis-8 ml-2 bg-blue-500 hover:bg-blue-700 shadow text-white rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            <IconContext.Provider
-              value={{
-                style: { margin: "auto", width: "70%", height: "70%" },
-              }}
-            >
-              <div>
-                <FiChevronsRight />
-              </div>
-            </IconContext.Provider>
-          </button>
+          <BlueChevronButton />
         </div>
       </form>
       {graphData ? (

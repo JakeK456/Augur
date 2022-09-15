@@ -4,7 +4,6 @@ import PortfolioDisplay from "../components/PortfolioDisplay";
 
 export default function Portfolio() {
   const numPredictionsQuery = useQuery(NUM_PREDICTIONS, {
-    // skip cache for demonstration
     fetchPolicy: "network-only",
   });
 

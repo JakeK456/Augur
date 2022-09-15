@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { FiChevronsRight } from "react-icons/fi";
-import { IconContext } from "react-icons";
 import { GET_CARDS, GET_DISPLAY_GRAPH } from "../util/queries";
 import Card from "./Card";
 import GraphModal from "./GraphModal";
+import BlueChevronButton from "./Buttons/BlueChevronButton";
 
 export default function PortfolioDisplay() {
   const [searchInput, setSearchInput] = useState("");
@@ -64,20 +63,7 @@ export default function PortfolioDisplay() {
             value={searchInput}
             onChange={handleInputChange}
           />
-          <button
-            className="grow-0 shrink-0 basis-8 ml-2 bg-blue-500 hover:bg-blue-700 shadow text-white rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            <IconContext.Provider
-              value={{
-                style: { margin: "auto", width: "70%", height: "70%" },
-              }}
-            >
-              <div>
-                <FiChevronsRight />
-              </div>
-            </IconContext.Provider>
-          </button>
+          <BlueChevronButton />
         </div>
       </form>
 
