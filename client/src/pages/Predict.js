@@ -3,7 +3,7 @@ import { FiChevronsRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { TICKER } from "../util/queries";
-import Graph from "../components/Graph";
+import PredictionGraph from "../components/Graph/PredictionGraph";
 import Modal from "../components/Modal";
 import TimeSpanBar from "../components/TimeSpanBar";
 import { MAKE_PREDICTION } from "../util/mutations";
@@ -52,8 +52,6 @@ export default function Predict() {
       console.error(error);
     }
   };
-
-  console.log(graphData);
 
   const handlePredictionSubmit = async () => {
     setShowAffirmModal(true);
@@ -119,7 +117,7 @@ export default function Predict() {
             <TimeSpanBar setTimeSpan={setTimeSpan} />
 
             <div className="w-full pt-4">
-              <Graph
+              <PredictionGraph
                 key={graphKey}
                 graphData={graphData}
                 setGraphData={setGraphData}

@@ -1,6 +1,6 @@
-const Y_PADDING_BUFFER = 0.1;
+const PADDING_BUFFER = 0.1;
 
-export class GraphBounds {
+class GraphBounds {
   constructor(coordArray) {
     let x = [];
     let y = [];
@@ -13,7 +13,21 @@ export class GraphBounds {
     this.xMax = Math.max(...x);
     this.yMin = Math.min(...y);
     this.yMax = Math.max(...y);
+  }
+}
+
+export class PredictionGraphBounds extends GraphBounds {
+  constructor(coordArray) {
+    super(coordArray);
     this.xPadding = Math.round((this.xMax - this.xMin) / 2);
-    this.yPadding = (this.yMax - this.yMin) * Y_PADDING_BUFFER;
+    this.yPadding = (this.yMax - this.yMin) * PADDING_BUFFER;
+  }
+}
+
+export class PortfolioGraphBounds extends GraphBounds {
+  constructor(graphCoordArray, predictionCoordArray) {
+    super([...graphCoordArray, ...predictionCoordArray]);
+    this.xPadding = (this.xMax - this.xMin) * PADDING_BUFFER;
+    this.yPadding = (this.yMax - this.yMin) * PADDING_BUFFER;
   }
 }

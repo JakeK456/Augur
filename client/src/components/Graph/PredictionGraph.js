@@ -1,32 +1,19 @@
-import { ReactChart, Line } from "react-chartjs-2";
+//import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "chart.js";
-import { Chart as ChartJS } from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
-import { useEffect, useRef } from "react";
 import moment from "moment";
 import cloneDeep from "lodash/cloneDeep";
-import { GraphBounds } from "../util/graph";
+import { PredictionGraphBounds } from "../../util/graph";
+import GraphBase from "./GraphBase";
 
-Chart.register(zoomPlugin);
+export default function PredictionGraph({ graphData, setGraphData }) {
+  Chart.register(zoomPlugin);
+  const graphBounds = new PredictionGraphBounds(graphData.datasets[0].data);
 
-export default function Graph({ graphData, setGraphData }) {
-  const chartRef = useRef();
-  const graphBounds = new GraphBounds(graphData.datasets[0].data);
-
-  const options = {
+  const getParentOptions = (chartRef) => ({
     scales: {
       x: {
-        type: "time",
-        time: {
-          displayFormats: {
-            day: "MMM D",
-          },
-        },
-        ticks: {
-          color: "#D3D3D3",
-          maxTicksLimit: 7,
-        },
         min: chartRef.current
           ? chartRef.current.scales.x.min
           : graphBounds.xMin,
@@ -35,12 +22,6 @@ export default function Graph({ graphData, setGraphData }) {
           : graphBounds.xMax + graphBounds.xPadding,
       },
       y: {
-        ticks: {
-          color: "#D3D3D3",
-          callback: function (val) {
-            return Math.floor(val);
-          },
-        },
         min: chartRef.current
           ? chartRef.current.scales.y.min
           : graphBounds.yMin - graphBounds.yPadding,
@@ -49,18 +30,7 @@ export default function Graph({ graphData, setGraphData }) {
           : graphBounds.yMax + graphBounds.yPadding,
       },
     },
-    animation: {
-      duration: 0,
-    },
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
     plugins: {
-      legend: {
-        display: false,
-      },
       zoom: {
         pan: {
           enabled: true,
@@ -74,9 +44,6 @@ export default function Graph({ graphData, setGraphData }) {
           },
           mode: "xy",
         },
-      },
-      tooltip: {
-        enabled: false,
       },
     },
     onClick: (event) => {
@@ -98,9 +65,11 @@ export default function Graph({ graphData, setGraphData }) {
         });
       }
     },
-  };
+  });
 
-  return <Line ref={chartRef} data={graphData} options={options} />;
+  return (
+    <GraphBase graphData={graphData} getParentOptions={getParentOptions} />
+  );
 }
 
 const validateClick = (x) => {

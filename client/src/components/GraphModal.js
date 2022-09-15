@@ -1,10 +1,11 @@
-import DisplayGraph from "./DisplayGraph";
+import PortfolioGraph from "./Graph/PortfolioGraph";
+import { useState } from "react";
 
 export default function GraphModal({ graphModal, setGraphModal }) {
   const handleBackButton = () => {
     setGraphModal({ isShowing: false, data: null });
   };
-
+  console.log(graphModal);
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -24,7 +25,7 @@ export default function GraphModal({ graphModal, setGraphModal }) {
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
-              <DisplayGraph graphData={graphModal.data} />
+              <PortfolioGraph graphData={graphModal.data.displayGraph} />
             </div>
           </div>
         </div>
