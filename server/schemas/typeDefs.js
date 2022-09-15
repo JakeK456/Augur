@@ -7,7 +7,7 @@ const typeDefs = gql`
   type Query {
     "Find the logged in user."
     me: User
-    ticker(ticker: String!, timeSpan: String!): TickerData
+    ticker(ticker: String!, timeSpan: String!): GraphData!
     numPredictions: NumPredictions
     cards(ticker: String!): [Card]
     displayGraph(predictionId: String!): GraphData!
@@ -66,6 +66,7 @@ const typeDefs = gql`
   }
 
   type GraphData {
+    ticker: String!
     datasets: [GraphDataset!]!
   }
 

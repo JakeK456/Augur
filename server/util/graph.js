@@ -17,6 +17,14 @@ const convertLabelToTimeSpan = (label) => {
   }
 };
 
+const setLineColor = (array) => {
+  const red = "#EA4335";
+  const green = "#34A853";
+  if (array[0] < array[array.length - 1]) return green;
+  return red;
+};
+
 module.exports = {
   convertLabelToTimeSpan,
+  setLineColor,
 };

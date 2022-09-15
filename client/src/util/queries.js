@@ -14,8 +14,14 @@ export const TICKER = gql`
   query ticker($ticker: String!, $timeSpan: String!) {
     ticker(ticker: $ticker, timeSpan: $timeSpan) {
       ticker
-      x
-      y
+      datasets {
+        data {
+          x
+          y
+        }
+        borderColor
+        borderDash
+      }
     }
   }
 `;
@@ -42,6 +48,7 @@ export const GET_CARDS = gql`
 export const GET_DISPLAY_GRAPH = gql`
   query displayGraph($predictionId: String!) {
     displayGraph(predictionId: $predictionId) {
+      ticker
       datasets {
         data {
           x

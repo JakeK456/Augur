@@ -46,9 +46,7 @@ export default function Predict() {
         variables: { ticker: tickerInput, timeSpan: timeSpan },
         fetchPolicy: "network-only",
       });
-
-      const formattedData = formatDataForGraph(data);
-      setGraphData(formattedData);
+      setGraphData(data.ticker);
       setGraphKey(data.ticker.ticker.concat(timeSpan));
     } catch (error) {
       console.error(error);
@@ -168,32 +166,3 @@ export default function Predict() {
     </div>
   );
 }
-
-const formatDataForGraph = (data) => {
-  let coords = data.ticker.x
-    .map((v, i) => [v, data.ticker.y[i]])
-    .map(([x, y]) => ({ x, y }));
-
-  const setLineColor = (array) => {
-    const red = "#EA4335";
-    const green = "#34A853";
-    if (array[0] < array[array.length - 1]) return green;
-    return red;
-  };
-
-  return {
-    ticker: data.ticker.ticker,
-    labels: data.ticker.x,
-    datasets: [
-      {
-        data: coords,
-        borderColor: setLineColor(data.ticker.y),
-      },
-      {
-        data: [coords[coords.length - 1]],
-        borderColor: "#a7a7a7", // grey
-        borderDash: [5, 5],
-      },
-    ],
-  };
-};

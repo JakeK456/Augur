@@ -4,11 +4,11 @@ import { Chart as ChartJS } from "chart.js/auto";
 import "chartjs-adapter-moment";
 import { useEffect, useRef } from "react";
 import moment from "moment";
-import cloneDeep from "lodash/cloneDeep";
-import { addXPadding, addYPadding } from "../util/graph";
+import { GraphBounds } from "../util/graph";
 
 export default function GraphBase({ graphData, setGraphData }) {
   const chartRef = useRef();
+  const graphBounds = new GraphBounds(graphData.datasets[0].data);
   const options = {
     scales: {
       x: {
@@ -24,10 +24,10 @@ export default function GraphBase({ graphData, setGraphData }) {
         },
         min: chartRef.current
           ? chartRef.current.scales.x.min
-          : graphData.datasets[0].data[0].x,
+          : graphBounds.xMin,
         max: chartRef.current
           ? chartRef.current.scales.x.max
-          : addXPadding(graphData.datasets[0].data),
+          : graphBounds.xMax + graphBounds.xPadding,
       },
       y: {
         ticks: {
@@ -38,12 +38,10 @@ export default function GraphBase({ graphData, setGraphData }) {
         },
         min: chartRef.current
           ? chartRef.current.scales.y.min
-          : graphData.datasets[0].data.hasMin("y").y -
-            addYPadding(graphData.datasets[0].data),
+          : graphBounds.yMin - graphBounds.yPadding,
         max: chartRef.current
           ? chartRef.current.scales.y.max
-          : graphData.datasets[0].data.hasMax("y").y +
-            addYPadding(graphData.datasets[0].data),
+          : graphBounds.yMax + graphBounds.yPadding,
       },
     },
     animation: {

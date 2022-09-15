@@ -8,8 +8,7 @@ const { dateScalar } = require("./customScalars");
 const fetch = require("node-fetch");
 const moment = require("moment");
 require("dotenv").config();
-const { convertLabelToTimeSpan } = require("../util/convertTimeSpan");
-const { raw } = require("express");
+const { convertLabelToTimeSpan, setLineColor } = require("../util/graph");
 
 const TIME_SPAN_MULTIPLIER = 4;
 
@@ -28,7 +27,6 @@ const resolvers = {
       const { ticker, timeSpan } = args;
 
       if (ticker === "") {
-        console.log("ticker", ticker);
         throw new UserInputError(`Input cannot be empty string.`);
       }
 
@@ -49,13 +47,27 @@ const resolvers = {
 
         let x = [];
         let y = [];
+        let coords = [];
 
         rawdata.results.forEach((obj) => {
-          y.push(obj.c);
           x.push(obj.t);
+          y.push(obj.c);
+          coords.push({ x: obj.t, y: obj.c });
         });
 
-        return { ticker, x, y };
+        const graphData = {
+          ticker,
+          datasets: [
+            { data: coords, borderColor: setLineColor(y), borderDash: [] },
+            {
+              data: [coords[coords.length - 1]],
+              borderColor: "#a7a7a7", // grey
+              borderDash: [5, 5],
+            },
+          ],
+        };
+
+        return graphData;
       } catch (error) {
         throw error;
       }
@@ -102,14 +114,20 @@ const resolvers = {
       const response = await fetch(pgUrl);
       const rawdata = await response.json();
 
+      let x = [];
+      let y = [];
       let coords = [];
+
       rawdata.results.forEach((obj) => {
+        x.push(obj.t);
+        y.push(obj.c);
         coords.push({ x: obj.t, y: obj.c });
       });
 
       const graphData = {
+        ticker: "test",
         datasets: [
-          { data: coords, borderColor: "#34A853", borderDash: [] },
+          { data: coords, borderColor: setLineColor(y), borderDash: [] },
           {
             data: prediction.coordinates,
             borderColor: "#a7a7a7",
