@@ -84,7 +84,7 @@ export default function Predict() {
   );
 
   return (
-    <div className="flex flex-col p-3">
+    <div className="flex flex-col p-3 max-w-xl m-auto">
       <h1 className="text-center text-xl underline">Make your Prediction</h1>
       {/* input */}
       <form className="flex my-6" onSubmit={handleSubmit}>
