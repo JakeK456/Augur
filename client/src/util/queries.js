@@ -4,6 +4,8 @@ export const ME = gql`
   query me {
     me {
       _id
+      firstName
+      lastName
       lastLogin
       email
     }

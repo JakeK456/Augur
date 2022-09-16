@@ -2,9 +2,7 @@ import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { client } from "./util/apolloClient";
 import { AuthProvider } from "./util/auth";
-import RequireAuth from "./components/RequireAuth";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Predict from "./pages/Predict";
@@ -32,22 +30,6 @@ function App() {
                   <Route path="/charts" element={<Charts />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/account" element={<Account />} />
-                  {/* <Route
-                    path="/predict"
-                    element={
-                      <RequireAuth>
-                        <Predict />
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/portfolio"
-                    element={
-                      <RequireAuth>
-                        <Portfolio />
-                      </RequireAuth>
-                    }
-                  /> */}
                 </Routes>
               </div>
             </div>

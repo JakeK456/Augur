@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../util/auth";
 
 const initialFormState = {
+  firstName: "",
+  lastName: "",
   email: "",
   password: "",
   passwordConfirm: "",
@@ -35,6 +37,26 @@ export default function SignUp() {
   return (
     <div className="w-full max-w-lg m-auto">
       <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+        <div className="flex mb-4 mt-16">
+          <input
+            className="grow shadow appearance-none border rounded py-2 px-3 mr-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="firstName"
+            name="firstName"
+            type="text"
+            placeholder="First Name"
+            value={formState.firstName.value}
+            onChange={handleInputChange}
+          />
+          <input
+            className="grow shadow appearance-none border rounded py-2 px-3 ml-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="lastName"
+            name="lastName"
+            type="text"
+            placeholder="Last Name"
+            value={formState.lastName.value}
+            onChange={handleInputChange}
+          />
+        </div>
         <div className="mb-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

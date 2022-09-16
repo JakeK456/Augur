@@ -20,15 +20,6 @@ export default function Portfolio() {
     [navigate]
   );
 
-  // const numPredictionsQuery = useQuery(NUM_PREDICTIONS, {
-  //   fetchPolicy: "network-only",
-  // });
-
-  // let numPredictions;
-  // if (!numPredictionsQuery.loading) {
-  //   numPredictions = numPredictionsQuery.data.numPredictions.numPredictions;
-  // }
-
   return (
     <div>
       {showNeedsAuthModal ? (
@@ -42,13 +33,6 @@ export default function Portfolio() {
       ) : (
         <PortfolioDisplay />
       )}
-
-      {/* {numPredictions ? (
-        <>
-          <p className="text-center">{`You've made a total of ${numPredictions} predictions!`}</p>
-          <PortfolioDisplay />
-        </>
-      ) : null} */}
     </div>
   );
 }
