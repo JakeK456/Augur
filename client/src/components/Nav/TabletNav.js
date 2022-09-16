@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import HamburgerIcon from "../HamburgerIcon";
-import HamburgerMenu from "../HamburgerMenu";
+import HamburgerIcon from "./HamburgerIcon";
+import HamburgerMenu from "./HamburgerMenu";
 
 export default function TabletNav() {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);

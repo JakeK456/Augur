@@ -2,9 +2,9 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../util/auth";
 
-import MobileBottomNav from "./Mobile/BottomNav";
-import MobileTopHeader from "./Mobile/TopHeader";
-import TabletNav from "./Tablet/TabletNav";
+import MobileBottomNav from "./MobileBottomNav";
+import MobileTopHeader from "./MobileTopHeader";
+import TabletNav from "./TabletNav";
 
 export default function NavController() {
   const { isLoggedIn, logout } = useAuth();
