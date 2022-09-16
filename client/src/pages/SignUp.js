@@ -30,19 +30,12 @@ export default function SignUp() {
   };
 
   if (isLoggedIn) {
-    // navigate to the home page
     return <Navigate to="/" replace />;
   }
   return (
-    <div className="w-full max-w-lg">
+    <div className="w-full max-w-lg m-auto">
       <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
         <div className="mb-4">
-          {/* <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="username"
-          >
-            Email Address
-          </label> */}
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
@@ -54,12 +47,6 @@ export default function SignUp() {
           />
         </div>
         <div className="mb-4">
-          {/* <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label> */}
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
@@ -71,12 +58,6 @@ export default function SignUp() {
           />
         </div>
         <div className="mb-4">
-          {/* <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Confirm Password
-          </label> */}
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="passwordConfirm"
@@ -108,58 +89,5 @@ export default function SignUp() {
         </div>
       </form>
     </div>
-
-    //   {/* <div>
-    //   <form onSubmit={handleSubmit}>
-    //     <div style={styles.formControl}>
-    //       <label htmlFor="username" style={styles.label}>
-    //         Username
-    //       </label>
-    //       <input
-    //         autoFocus
-    //         disabled={loading}
-    //         id="username"
-    //         type="text"
-    //         placeholder="Enter username"
-    //         name="username"
-    //         value={formState.username.value}
-    //         onChange={handleInputChange}
-    //       />
-    //     </div>
-    //     <div style={styles.formControl}>
-    //       <label htmlFor="email" style={styles.label}>
-    //         Email
-    //       </label>
-    //       <input
-    //         disabled={loading}
-    //         id="email"
-    //         type="email"
-    //         name="email"
-    //         placeholder="Enter email"
-    //         value={formState.email.value}
-    //         onChange={handleInputChange}
-    //       />
-    //     </div>
-    //     <div style={styles.formControl}>
-    //       <label htmlFor="new-password" style={styles.label}>
-    //         Password
-    //       </label>
-    //       <input
-    //         disabled={loading}
-    //         id="new-password"
-    //         type="password"
-    //         name="password"
-    //         placeholder="Enter password"
-    //         value={formState.password.value}
-    //         onChange={handleInputChange}
-    //       />
-    //     </div>
-    //     <div style={styles.formControl}>
-    //       <button disabled={loading} type="submit">
-    //         {loading ? "Loading..." : "Submit"}
-    //       </button>
-    //     </div>
-    //   </form>
-    // </div> */}
   );
 }

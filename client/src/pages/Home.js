@@ -5,8 +5,8 @@ export default function Home() {
   return (
     <div>
       {/* TODO: display logged in user's username */}
-      <h1>Welcome {isLoggedIn ? user.email : "Guest"}!</h1>
-      <p>
+      <h1 className="text-center my-8 text-lg">Welcome to Augur!</h1>
+      <p className="p-4 text-center">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo cumque
         explicabo ipsum, facilis repellendus omnis amet in accusantium quisquam
         nam qui consectetur sunt distinctio nemo molestiae ratione. Iure,

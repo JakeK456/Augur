@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../util/auth";
 
@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <div>
       <nav className="flex min-h-20 items-center border-b-4 border-black ">
-        <div className="basis-1/4 flex justify-start pl-6 group">
+        <div className="md:hidden basis-1/4 flex justify-start pl-6 group">
           <div
             className="cursor-pointer space-y-2"
             onClick={(event) => {

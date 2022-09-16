@@ -3,12 +3,14 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { TICKER } from "../util/queries";
 import { MAKE_PREDICTION } from "../util/mutations";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../util/auth";
 import PredictionGraph from "../components/Graph/PredictionGraph";
 import Modal from "../components/Modal";
 import TimeSpanBar from "../components/TimeSpanBar";
 import BlueChevronButton from "../components/Buttons/BlueChevronButton";
 
 export default function Predict() {
+  const { isLoggedIn } = useAuth();
   const [getTickerData] = useLazyQuery(TICKER);
   const [makePrediction] = useMutation(MAKE_PREDICTION);
   const [tickerInput, setTickerInput] = useState("");
@@ -17,7 +19,8 @@ export default function Predict() {
   const [timeSpan, setTimeSpan] = useState("6M");
   const isMounted = useRef(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showAffirmModal, setShowAffirmModal] = useState(false);
+  const [showAffirmModal, setShowAffirmModal] = useState(false); // useReducer ??
+  const [showNeedsAuthModal, setShowNeedsAuthModal] = useState(false);
   const navigate = useNavigate();
 
   // needed to rerender graph when timespan bar is clicked.
@@ -37,6 +40,10 @@ export default function Predict() {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     fetchGraphData();
+  };
+
+  const handleSendButton = () => {
+    isLoggedIn ? setShowConfirmModal(true) : setShowNeedsAuthModal(true);
   };
 
   const fetchGraphData = async () => {
@@ -66,8 +73,13 @@ export default function Predict() {
     }
   };
 
-  const viewPortfolioPage = useCallback(
+  const navigateToPortfolioPage = useCallback(
     () => navigate("/portfolio", { replace: true }),
+    [navigate]
+  );
+
+  const navigateToLoginPage = useCallback(
+    () => navigate("/login", { replace: true }),
     [navigate]
   );
 
@@ -97,8 +109,7 @@ export default function Predict() {
       </form>
       {graphData ? (
         <>
-          {/* chart */}
-          <div className="pb-8">
+          <div className="pb-8 mt-6">
             <TimeSpanBar setTimeSpan={setTimeSpan} />
 
             <div className="w-full pt-4">
@@ -121,12 +132,21 @@ export default function Predict() {
             <button
               className="bg-green-500 hover:bg-green-700 w-full text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline my-1"
               type="button"
-              onClick={() => setShowConfirmModal(true)}
+              onClick={handleSendButton}
             >
               Send
             </button>
           </div>
         </>
+      ) : null}
+      {showNeedsAuthModal ? (
+        <Modal
+          setShowModal={setShowNeedsAuthModal}
+          header={"Please Log In"}
+          body={"You must be logged in to send predictions!"}
+          confirmButton={{ text: "Login", action: navigateToLoginPage }}
+          backButton={{ text: "Back" }}
+        />
       ) : null}
       {showConfirmModal ? (
         <Modal
@@ -145,7 +165,7 @@ export default function Predict() {
           confirmButton={{ text: "Make Another Prediction" }}
           backButton={{
             text: "View Your Predictions",
-            action: viewPortfolioPage,
+            action: navigateToPortfolioPage,
           }}
         />
       ) : null}

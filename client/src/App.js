@@ -1,14 +1,18 @@
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import RequireAuth from "./components/RequireAuth";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Predict from "./pages/Predict";
-import Portfolio from "./pages/Portfolio";
-import SignUp from "./pages/SignUp";
 import { client } from "./util/apolloClient";
 import { AuthProvider } from "./util/auth";
+import RequireAuth from "./components/RequireAuth";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Predict from "./pages/Predict";
+import Portfolio from "./pages/Portfolio";
+import Charts from "./pages/Charts";
+import News from "./pages/News";
+import Account from "./pages/Account";
+import NavController from "./components/Nav/NavController";
 
 function App() {
   return (
@@ -16,14 +20,19 @@ function App() {
       <Router>
         <AuthProvider>
           <div>
-            <Navbar />
+            <NavController />
             <div>
               <div>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<SignUp />} />
-                  <Route
+                  <Route path="/predict" element={<Predict />} />
+                  <Route path="/portfolio" element={<Portfolio />} />
+                  <Route path="/charts" element={<Charts />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/account" element={<Account />} />
+                  {/* <Route
                     path="/predict"
                     element={
                       <RequireAuth>
@@ -38,7 +47,7 @@ function App() {
                         <Portfolio />
                       </RequireAuth>
                     }
-                  />
+                  /> */}
                 </Routes>
               </div>
             </div>

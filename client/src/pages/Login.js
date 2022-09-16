@@ -36,8 +36,11 @@ export default function Login() {
   }
 
   return (
-    <div className="w-full max-w-lg">
-      <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+    <div className="w-full max-w-lg m-auto">
+      <form
+        className="bg-white px-4 pt-6 pb-8 mb-4 mt-16"
+        onSubmit={handleSubmit}
+      >
         <div className="mb-4">
           {/* <label
             className="block text-gray-700 text-sm font-bold mb-2"
