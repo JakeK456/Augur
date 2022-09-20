@@ -1,8 +1,8 @@
-import { CgProfile } from "react-icons/cg";
-import ProfilePicture from "./ProfilePicture";
 import { useAuth } from "../../util/auth";
 import { useQuery } from "@apollo/client";
 import { ME } from "../../util/queries";
+import { useState } from "react";
+import EditableProfilePicture from "./EditableProfilePicture";
 
 export default function AccountContainer() {
   const { logout } = useAuth();
@@ -13,7 +13,7 @@ export default function AccountContainer() {
 
   return (
     <div className="p-12">
-      <ProfilePicture />
+      <EditableProfilePicture />
       {data ? (
         <>
           <h1 className="text-4xl font-semibold text-center mt-4">
