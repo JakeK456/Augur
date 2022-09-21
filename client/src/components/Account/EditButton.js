@@ -1,25 +1,31 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { SET_PROFILE_PICTURE } from "../../util/mutations";
 import { GrEdit } from "react-icons/gr";
+
 import {
   defaultProfilePicture,
   testingProfilePicture,
 } from "../../util/profilePicture";
 
-export default function EditButton({ setImageUrl }) {
+export default function EditButton({ imageUrl, setImageUrl }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [setProfilePicture] = useMutation(SET_PROFILE_PICTURE);
 
   const uploadPhoto = (e) => {
     e.preventDefault();
     const reader = new FileReader();
     const file = e.target.files[0];
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
+      await setProfilePicture({ variables: { url: reader.result } });
       setImageUrl(reader.result);
     };
     reader.readAsDataURL(file);
     setIsExpanded(false);
   };
 
-  const removePhoto = () => {
+  const removePhoto = async () => {
+    await setProfilePicture({ variables: { url: defaultProfilePicture } });
     setImageUrl(defaultProfilePicture);
     setIsExpanded(false);
   };

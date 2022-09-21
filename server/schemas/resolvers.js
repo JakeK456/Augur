@@ -9,6 +9,7 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 require("dotenv").config();
 const { convertLabelToTimeSpan, setLineColor } = require("../util/graph");
+const ProfilePicture = require("../models/ProfilePicture");
 
 const TIME_SPAN_MULTIPLIER = 4;
 
@@ -138,6 +139,15 @@ const resolvers = {
 
       return graphData;
     },
+    profilePicture: async (parent, args, ctx) => {
+      if (!ctx.user) {
+        throw new AuthenticationError("Must be logged in.");
+      }
+      const profilePicture = await ProfilePicture.findOne({
+        userId: ctx.user._id,
+      });
+      return { url: profilePicture.url };
+    },
   },
   Mutation: {
     createUser: async (parent, args) => {
@@ -172,6 +182,18 @@ const resolvers = {
     makePrediction: async (parent, args, ctx) => {
       const user = await Prediction.create({ userId: ctx.user._id, ...args });
       return { ...args };
+    },
+    setProfilePicture: async (parent, args, ctx) => {
+      try {
+        const { url } = args;
+        const query = { userId: ctx.user._id };
+        const update = { url };
+        const options = { upsert: true };
+        await ProfilePicture.findOneAndUpdate(query, update, options);
+        return { ...args };
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

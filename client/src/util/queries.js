@@ -62,3 +62,11 @@ export const GET_DISPLAY_GRAPH = gql`
     }
   }
 `;
+
+export const PROFILE_PICTURE = gql`
+  query profilePicture {
+    profilePicture {
+      url
+    }
+  }
+`;

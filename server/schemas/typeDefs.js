@@ -11,6 +11,7 @@ const typeDefs = gql`
     numPredictions: NumPredictions
     cards(ticker: String!): [Card]
     displayGraph(predictionId: String!): GraphData!
+    profilePicture: ProfilePicture
   }
 
   type Mutation {
@@ -26,6 +27,11 @@ const typeDefs = gql`
       coordinates: [CoordsInput!]!
       timeSpan: String!
     ): Prediction
+    setProfilePicture(url: String): ProfilePicture
+  }
+
+  type ProfilePicture {
+    url: String
   }
 
   type Auth {
