@@ -17,10 +17,10 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <AuthProvider>
-          <div>
+          <div className="h-screen w-screen">
             <NavController />
-            <div>
-              <div>
+            <div className="w-full h-[calc(100%-6rem)] sm:h-[calc(100%-5rem)] overflow-auto sm:overflow-visible bg-gray-100">
+              <div className="bg-gray-100">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />

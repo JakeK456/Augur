@@ -4,7 +4,7 @@ import TabletNav from "./TabletNav";
 
 export default function NavController() {
   return (
-    <div>
+    <div className="bg-white">
       <div className="sm:hidden">
         <MobileTopHeader />
         <MobileBottomNav />

@@ -12,6 +12,7 @@ const typeDefs = gql`
     cards(ticker: String!): [Card]
     displayGraph(predictionId: String!): GraphData!
     profilePicture: ProfilePicture
+    news: [NewsArticle]
   }
 
   type Mutation {
@@ -28,6 +29,14 @@ const typeDefs = gql`
       timeSpan: String!
     ): Prediction
     setProfilePicture(url: String): ProfilePicture
+  }
+
+  type NewsArticle {
+    uuid: String!
+    title: String!
+    source: String!
+    image_url: String!
+    url: String!
   }
 
   type ProfilePicture {

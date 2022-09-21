@@ -70,3 +70,15 @@ export const PROFILE_PICTURE = gql`
     }
   }
 `;
+
+export const NEWS = gql`
+  query news {
+    news {
+      uuid
+      title
+      source
+      image_url
+      url
+    }
+  }
+`;
