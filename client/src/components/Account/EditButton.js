@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { SET_PROFILE_PICTURE } from "../../util/mutations";
 import { GrEdit } from "react-icons/gr";
-import { defaultProfilePicture } from "../../util/profilePicture";
 
 export default function EditButton({ setImageUrl }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -26,8 +25,8 @@ export default function EditButton({ setImageUrl }) {
         "Are you sure you want to remove your profile picture? This will set your picture to the default."
       )
     ) {
-      await setProfilePicture({ variables: { url: defaultProfilePicture } });
-      setImageUrl(defaultProfilePicture);
+      await setProfilePicture({ variables: { url: null } });
+      setImageUrl(null);
     }
     setIsExpanded(false);
   };

@@ -151,9 +151,12 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (parent, args) => {
-      console.log(args);
       try {
         const user = await User.create({ ...args });
+        const profilePicture = await ProfilePicture.create({
+          userId: user._id,
+          url: null,
+        });
         const token = await signToken(user);
         return { user, token };
       } catch (error) {
