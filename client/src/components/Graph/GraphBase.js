@@ -5,51 +5,57 @@ import merge from "lodash/merge.js";
 import { useRef } from "react";
 
 export default function GraphBase({ graphData, getParentOptions }) {
+  console.log(graphData);
   const chartRef = useRef();
-  let options = {};
+
+  const baseOptions = {
+    scales: {
+      x: {
+        type: "time",
+        time: {
+          displayFormats: {
+            day: "MMM D",
+          },
+        },
+        ticks: {
+          color: "#D3D3D3",
+          maxTicksLimit: 7,
+        },
+      },
+      y: {
+        ticks: {
+          color: "#D3D3D3",
+          callback: function (val) {
+            return Math.floor(val);
+          },
+        },
+      },
+    },
+    animation: {
+      duration: 0,
+    },
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+      title: {
+        text: graphData.ticker,
+        display: true,
+      },
+    },
+  };
+
   const parentOptions = getParentOptions(chartRef);
+  let options = {};
   merge(options, baseOptions, parentOptions);
 
   return <Line ref={chartRef} data={graphData} options={options} />;
 }
-
-const baseOptions = {
-  scales: {
-    x: {
-      type: "time",
-      time: {
-        displayFormats: {
-          day: "MMM D",
-        },
-      },
-      ticks: {
-        color: "#D3D3D3",
-        maxTicksLimit: 7,
-      },
-    },
-    y: {
-      ticks: {
-        color: "#D3D3D3",
-        callback: function (val) {
-          return Math.floor(val);
-        },
-      },
-    },
-  },
-  animation: {
-    duration: 0,
-  },
-  elements: {
-    point: {
-      radius: 0,
-    },
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: false,
-    },
-  },
-};
