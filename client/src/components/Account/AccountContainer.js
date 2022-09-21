@@ -1,7 +1,6 @@
 import { useAuth } from "../../util/auth";
 import { useQuery } from "@apollo/client";
 import { ME } from "../../util/queries";
-import { useState } from "react";
 import EditableProfilePicture from "./EditableProfilePicture";
 
 export default function AccountContainer() {

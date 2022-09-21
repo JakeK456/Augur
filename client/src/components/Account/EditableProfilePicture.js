@@ -1,11 +1,7 @@
 import Picture from "./Picture";
 import EditButton from "./EditButton";
 import { useEffect, useState, useRef } from "react";
-import {
-  defaultProfilePicture,
-  testingProfilePicture,
-} from "../../util/profilePicture";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { PROFILE_PICTURE } from "../../util/queries";
 
 export default function EditableProfilePicture() {
@@ -30,7 +26,7 @@ export default function EditableProfilePicture() {
   return (
     <div className="relative h-48 w-48 m-auto">
       <Picture src={imageUrl} />
-      <EditButton imageUrl={imageUrl} setImageUrl={setImageUrl} />
+      <EditButton setImageUrl={setImageUrl} />
     </div>
   );
 }
