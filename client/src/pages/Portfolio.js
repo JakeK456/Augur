@@ -21,7 +21,7 @@ export default function Portfolio() {
   );
 
   return (
-    <div>
+    <div className="pt-10 px-5">
       {showNeedsAuthModal ? (
         <Modal
           setShowModal={setShowNeedsAuthModal}

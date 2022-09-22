@@ -8,7 +8,7 @@ export default function TabletNav() {
 
   return (
     <div>
-      <nav className="flex min-h-20 items-center border-b-2 border-black ">
+      <nav className="bg-primary flex min-h-20 items-center border-black shadow-xl">
         <div className="basis-1/4 flex justify-start pl-6 group">
           <HamburgerIcon
             hamburgerOpen={hamburgerOpen}
@@ -17,7 +17,7 @@ export default function TabletNav() {
         </div>
 
         <div className="basis-1/2 flex justify-center">
-          <a href="/" className="font-marcellus text-4xl font-medium">
+          <a href="/" className="font-ubuntu text-[40px] font-medium text-secondary">
             Augur
           </a>
         </div>
