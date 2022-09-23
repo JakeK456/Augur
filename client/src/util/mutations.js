@@ -41,3 +41,11 @@ export const MAKE_PREDICTION = gql`
     }
   }
 `;
+
+export const SET_PROFILE_PICTURE = gql`
+  mutation setProfilePicture($url: String!) {
+    setProfilePicture(url: $url) {
+      url
+    }
+  }
+`;

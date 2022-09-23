@@ -110,7 +110,7 @@ export default function Predict() {
       {graphData ? (
         <>
           <div className="pb-8 mt-6">
-            <TimeSpanBar setTimeSpan={setTimeSpan} />
+            <TimeSpanBar timeSpan={timeSpan} setTimeSpan={setTimeSpan} />
 
             <div className="w-full pt-4">
               <PredictionGraph

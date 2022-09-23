@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg";
 
 export default function MobileBottomNav() {
   return (
-    <div className="flex h-12 fixed bottom-0 w-screen border-t">
+    <div className="bg-white flex h-12 fixed bottom-0 w-screen border-t">
       <NavLink to="/predict" className="basis-1/5 m-2">
         <GiCrystalBall className="m-auto h-[70%] w-[70%]" />
         <p className="text-center text-[11px]">Predict</p>

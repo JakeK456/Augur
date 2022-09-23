@@ -39,7 +39,7 @@ export default function SignUp() {
       <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
         <div className="flex mb-4 mt-16">
           <input
-            className="grow shadow appearance-none border rounded py-2 px-3 mr-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="basis-1/2 min-w-0 shadow appearance-none border rounded py-2 px-3 mr-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="firstName"
             name="firstName"
             type="text"
@@ -48,7 +48,7 @@ export default function SignUp() {
             onChange={handleInputChange}
           />
           <input
-            className="grow shadow appearance-none border rounded py-2 px-3 ml-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="basis-1/2 min-w-0 shadow appearance-none border rounded py-2 px-3 ml-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="lastName"
             name="lastName"
             type="text"

@@ -8,7 +8,7 @@ export default function TabletNav() {
 
   return (
     <div>
-      <nav className="bg-primary flex min-h-20 items-center border-black shadow-xl">
+      <nav className="bg-primary flex h-20 items-center border-black shadow-xl">
         <div className="basis-1/4 flex justify-start pl-6 group">
           <HamburgerIcon
             hamburgerOpen={hamburgerOpen}

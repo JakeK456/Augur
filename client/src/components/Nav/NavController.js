@@ -5,7 +5,7 @@ import WebHeader from "./WebHeader";
 
 export default function NavController() {
   return (
-    <div>
+    <div className="bg-white">
       <div className="sm:hidden">
         <MobileTopHeader />
         <MobileBottomNav />

@@ -9,6 +9,7 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 require("dotenv").config();
 const { convertLabelToTimeSpan, setLineColor } = require("../util/graph");
+const ProfilePicture = require("../models/ProfilePicture");
 
 const TIME_SPAN_MULTIPLIER = 4;
 
@@ -138,12 +139,52 @@ const resolvers = {
 
       return graphData;
     },
+    profilePicture: async (parent, args, ctx) => {
+      if (!ctx.user) {
+        throw new AuthenticationError("Must be logged in.");
+      }
+      const profilePicture = await ProfilePicture.findOne({
+        userId: ctx.user._id,
+      });
+      return { url: profilePicture.url };
+    },
+    news: async (parent, args) => {
+      console.log("HELLO????");
+      const maUrl = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&api_token=${process.env.MA_KEY}`;
+
+      const response = await fetch(maUrl);
+      const rawdata = await response.json();
+      //console.log(rawdata);
+
+      const data = rawdata.data.map(
+        ({ uuid, title, source, image_url, url }) => {
+          if (image_url === "") {
+            image_url =
+              "https://static.businessworld.in/article/article_extra_large_image/1663780107_A00qNn_jensen_huang.jpg";
+          }
+          return {
+            uuid,
+            title,
+            source,
+            image_url,
+            url,
+          };
+        }
+      );
+
+      console.log(data);
+
+      return data;
+    },
   },
   Mutation: {
     createUser: async (parent, args) => {
-      console.log(args);
       try {
         const user = await User.create({ ...args });
+        const profilePicture = await ProfilePicture.create({
+          userId: user._id,
+          url: null,
+        });
         const token = await signToken(user);
         return { user, token };
       } catch (error) {
@@ -172,6 +213,18 @@ const resolvers = {
     makePrediction: async (parent, args, ctx) => {
       const user = await Prediction.create({ userId: ctx.user._id, ...args });
       return { ...args };
+    },
+    setProfilePicture: async (parent, args, ctx) => {
+      try {
+        const { url } = args;
+        const query = { userId: ctx.user._id };
+        const update = { url };
+        const options = { upsert: true };
+        await ProfilePicture.findOneAndUpdate(query, update, options);
+        return { ...args };
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
