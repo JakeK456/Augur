@@ -4,6 +4,10 @@
 
 @layer components {
     .hamburger-dropdown {
-        @apply flex block py-2 px-4 h-12 bg-white hover:bg-gray-100 border-b-2 border-black justify-center items-center ;
+        @apply flex block py-2 px-4 h-12 bg-primary hover:bg-menu-hover hover:text-secondary border-b-2 border-secondary text-secondary justify-center items-center ;
     }
+}
+
+body {
+    background-color: #edf6f9 !important;
 }
