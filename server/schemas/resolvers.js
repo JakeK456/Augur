@@ -126,7 +126,7 @@ const resolvers = {
       });
 
       const graphData = {
-        ticker: "test",
+        ticker: prediction.ticker,
         datasets: [
           { data: coords, borderColor: setLineColor(y), borderDash: [] },
           {
@@ -149,12 +149,10 @@ const resolvers = {
       return { url: profilePicture.url };
     },
     news: async (parent, args) => {
-      console.log("HELLO????");
       const maUrl = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&api_token=${process.env.MA_KEY}`;
 
       const response = await fetch(maUrl);
       const rawdata = await response.json();
-      //console.log(rawdata);
 
       const data = rawdata.data.map(
         ({ uuid, title, source, image_url, url }) => {
@@ -172,9 +170,13 @@ const resolvers = {
         }
       );
 
-      console.log(data);
-
       return data;
+    },
+    profile: async (parent, args, ctx) => {
+      const { accountId } = args;
+      console.log(accountId);
+
+      return { email: "test" };
     },
   },
   Mutation: {

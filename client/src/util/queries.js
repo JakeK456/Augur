@@ -82,3 +82,11 @@ export const NEWS = gql`
     }
   }
 `;
+
+export const PROFILE = gql`
+  query profile($accountId: String!) {
+    profile(accountId: $accountId) {
+      email
+    }
+  }
+`;

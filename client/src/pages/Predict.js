@@ -84,8 +84,8 @@ export default function Predict() {
   );
 
   return (
-    <div className="flex flex-col pt-10 max-w-xl m-10 bg-primary mx-auto shadow-xl">
-      <h1 className="text-center text-[30px] text-secondary font-ubuntu">Make your Prediction</h1>
+    <div className="flex flex-col p-3 max-w-xl m-auto bg-white h-full">
+      <h1 className="text-center text-xl underline">Make your Prediction</h1>
       {/* input */}
       <form className="flex my-6 p-10" onSubmit={handleSubmit}>
         <label

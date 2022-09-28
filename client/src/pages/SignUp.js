@@ -5,6 +5,7 @@ import { useAuth } from "../util/auth";
 const initialFormState = {
   firstName: "",
   lastName: "",
+  username: "",
   email: "",
   password: "",
   passwordConfirm: "",
@@ -54,6 +55,17 @@ export default function SignUp() {
             type="text"
             placeholder="Last Name"
             value={formState.lastName.value}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="username"
+            name="username"
+            type="username"
+            placeholder="Username"
+            value={formState.username.value}
             onChange={handleInputChange}
           />
         </div>

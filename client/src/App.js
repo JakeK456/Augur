@@ -10,6 +10,7 @@ import Portfolio from "./pages/Portfolio";
 import Charts from "./pages/Charts";
 import News from "./pages/News";
 import Account from "./pages/Account";
+import Profile from "./pages/Profile";
 import NavController from "./components/Nav/NavController";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <div className="h-screen w-screen">
             <NavController />
             <div className="w-full h-[calc(100%-6rem)] sm:h-[calc(100%-5rem)] overflow-auto sm:overflow-visible bg-gray-100">
-              <div className="bg-gray-100">
+              <div className=" bg-gray-100">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
@@ -30,6 +31,7 @@ function App() {
                   <Route path="/charts" element={<Charts />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/account" element={<Account />} />
+                  <Route path="/profile/*" element={<Profile />} />
                 </Routes>
               </div>
             </div>

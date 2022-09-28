@@ -13,12 +13,14 @@ const typeDefs = gql`
     displayGraph(predictionId: String!): GraphData!
     profilePicture: ProfilePicture
     news: [NewsArticle]
+    profile(accountId: String!): Profile!
   }
 
   type Mutation {
     createUser(
       firstName: String!
       lastName: String!
+      username: String!
       email: String!
       password: String!
     ): Auth
@@ -52,6 +54,7 @@ const typeDefs = gql`
     _id: ID!
     firstName: String!
     lastName: String!
+    userName: String!
     email: String!
     lastLogin: Date!
   }
@@ -96,6 +99,10 @@ const typeDefs = gql`
     data: [Coords!]!
     borderColor: String!
     borderDash: [Int]
+  }
+
+  type Profile {
+    email: String!
   }
 `;
 
