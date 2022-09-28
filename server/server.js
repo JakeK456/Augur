@@ -65,3 +65,5 @@ async function startServer(typeDefs, resolvers) {
     process.exit(1);
   }
 }
+
+module.exports = app;
