@@ -25,6 +25,10 @@ async function startServer(typeDefs, resolvers) {
 
     // create express app
     const app = express();
+    server.applyMiddleware({
+      app,
+      path: "/graphql",
+    });
 
     app.use(
       express.urlencoded({
@@ -33,11 +37,6 @@ async function startServer(typeDefs, resolvers) {
       })
     );
     app.use(express.json({ limit: "2mb" }));
-
-    server.applyMiddleware({
-      app,
-      path: "/graphql",
-    });
 
     if (process.env.NODE_ENV === "production") {
       // Handle requests for client assets
