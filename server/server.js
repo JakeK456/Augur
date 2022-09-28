@@ -2,7 +2,6 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
-const cors = require("cors");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const { authMiddleware } = require("./util/auth");
@@ -26,7 +25,7 @@ async function startServer(typeDefs, resolvers) {
 
     // create express app
     const app = express();
-    app.use(cors());
+
     app.use(
       express.urlencoded({
         limit: "2mb",
