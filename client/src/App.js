@@ -7,7 +7,6 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Predict from "./pages/Predict";
 import Portfolio from "./pages/Portfolio";
-import Charts from "./pages/Charts";
 import News from "./pages/News";
 import Account from "./pages/Account";
 import Profile from "./pages/Profile";
@@ -28,7 +27,6 @@ function App() {
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/predict" element={<Predict />} />
                   <Route path="/portfolio" element={<Portfolio />} />
-                  <Route path="/charts" element={<Charts />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/account" element={<Account />} />
                   <Route path="/profile/*" element={<Profile />} />

@@ -17,10 +17,6 @@ export default function MobileBottomNav() {
         <BsBook className="m-auto h-[70%] w-[70%]" />
         <p className="text-center text-[11px]">Portfolio</p>
       </NavLink>
-      <NavLink to="/charts" className="basis-1/5 m-2">
-        <AiOutlineLineChart className="m-auto h-[70%] w-[70%]" />
-        <p className="text-center text-[11px]">Charts</p>
-      </NavLink>
       <NavLink to="/news" className="basis-1/5 m-2">
         <IoNewspaperOutline className="m-auto h-[70%] w-[70%]" />
         <p className="text-center text-[11px]">News</p>
