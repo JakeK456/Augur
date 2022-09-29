@@ -89,7 +89,7 @@ export default function Predict() {
       {/* input */}
       <form className="flex my-6 p-10" onSubmit={handleSubmit}>
         <label
-          className="flex shrink-0 basis-1/2 inline-block text-secondary text-lg justify-start items-center"
+          className="flex shrink-0 basis-1/2 inline-block text-gray-700 text-lg justify-start items-center"
           htmlFor="tickerInput"
         >
           Enter ticker:

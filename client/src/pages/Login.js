@@ -36,11 +36,12 @@ export default function Login() {
   }
 
   return (
-    <div className="w-full max-w-lg m-auto">
+    <div className="w-full max-w-lg m-auto pt-16">
       <form
-        className="bg-white px-4 pt-6 pb-8 mb-4 mt-16"
+        className="bg-white px-4 py-6 mb-4 rounded-xl"
         onSubmit={handleSubmit}
       >
+        <h1 className="text-center mb-6 text-2xl font-bold">Login</h1>
         <div className="mb-4">
           {/* <label
             className="block text-gray-700 text-sm font-bold mb-2"

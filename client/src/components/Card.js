@@ -10,7 +10,7 @@ export default function Card({ data, handleCardClicked }) {
   };
   return (
     <div
-      className="flex flex-row border-t cursor-pointer"
+      className="flex flex-row border-t cursor-pointer hover:bg-slate-200"
       onClick={cardClicked}
     >
       <p className="basis-1/3 text-center">{data.ticker}</p>

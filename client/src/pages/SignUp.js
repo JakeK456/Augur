@@ -36,9 +36,13 @@ export default function SignUp() {
     return <Navigate to="/" replace />;
   }
   return (
-    <div className="w-full max-w-lg m-auto">
-      <form className="bg-white px-4 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
-        <div className="flex mb-4 mt-16">
+    <div className="w-full max-w-lg m-auto pt-16">
+      <form
+        className="bg-white px-4 pt-6 pb-8 mb-4 rounded-xl"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="text-center mb-6 text-2xl font-bold">Sign Up</h1>
+        <div className="flex my-4">
           <input
             className="basis-1/2 min-w-0 shadow appearance-none border rounded py-2 px-3 mr-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="firstName"
