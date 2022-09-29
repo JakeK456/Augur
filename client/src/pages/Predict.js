@@ -87,7 +87,7 @@ export default function Predict() {
     <div className="flex flex-col p-3 max-w-xl m-auto bg-white h-full">
       <h1 className="text-center text-xl underline">Make your Prediction</h1>
       {/* input */}
-      <form className="flex my-6 p-10" onSubmit={handleSubmit}>
+      <form className="flex my-6 px-10 pt-10 pb-4" onSubmit={handleSubmit}>
         <label
           className="flex shrink-0 basis-1/2 inline-block text-gray-700 text-lg justify-start items-center"
           htmlFor="tickerInput"
@@ -109,6 +109,9 @@ export default function Predict() {
       </form>
       {graphData ? (
         <>
+          <h6 className="text-center">
+            *Click to the right of the line to draw your prediction*
+          </h6>
           <div className="pb-8 mt-6">
             <TimeSpanBar timeSpan={timeSpan} setTimeSpan={setTimeSpan} />
 
