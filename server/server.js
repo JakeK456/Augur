@@ -56,7 +56,7 @@ async function startServer(typeDefs, resolvers) {
       `🚀 Apollo Server ready at http://localhost:${PORT}${server.graphqlPath}`
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     console.log(
       "⛔ There was an error starting the server. See above for details."
     );

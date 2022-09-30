@@ -8,6 +8,6 @@ export default function Profile() {
     variables: { accountId: window.location.pathname },
     fetchPolicy: "network-only",
   });
-  console.log(data);
+
   return <div>Profile Page</div>;
 }

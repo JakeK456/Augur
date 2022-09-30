@@ -174,7 +174,6 @@ const resolvers = {
     },
     profile: async (parent, args, ctx) => {
       const { accountId } = args;
-      console.log(accountId);
 
       return { email: "test" };
     },
@@ -225,7 +224,7 @@ const resolvers = {
         await ProfilePicture.findOneAndUpdate(query, update, options);
         return { ...args };
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },

@@ -69,7 +69,7 @@ export default function Predict() {
       });
       setGraphData(null);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

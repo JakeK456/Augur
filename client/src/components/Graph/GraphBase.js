@@ -5,7 +5,6 @@ import merge from "lodash/merge.js";
 import { useRef } from "react";
 
 export default function GraphBase({ graphData, getParentOptions }) {
-  console.log(graphData);
   const chartRef = useRef();
 
   const baseOptions = {

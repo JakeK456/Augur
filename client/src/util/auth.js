@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
       const { data } = await loginUser({ variables: { email, password } });
       dispatch({ type: LOGIN_SUCCESS, payload: data.login.token });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       dispatch({ type: ERROR, payload: error.message });
     }
   };
@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }) => {
       });
       dispatch({ type: LOGIN_SUCCESS, payload: data.createUser.token });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       dispatch({ type: ERROR, payload: error.message });
     }
   };
