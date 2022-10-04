@@ -38,8 +38,12 @@ export default function Predict() {
   };
 
   const handleSubmit = async (evt) => {
-    evt.preventDefault();
-    fetchGraphData();
+    if (tickerInput !== "") {
+      evt.preventDefault();
+      fetchGraphData();
+    } else {
+      alert("The input field is empty. Please enter an input.");
+    }
   };
 
   const handleSendButton = () => {
