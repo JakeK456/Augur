@@ -17,23 +17,17 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <AuthProvider>
-          <div className="h-screen w-screen">
-            <NavController />
-            <div className="w-full h-[calc(100%-6rem)] sm:h-[calc(100%-5rem)] overflow-auto sm:overflow-visible bg-gray-100">
-              <div className=" bg-gray-100">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/predict" element={<Predict />} />
-                  <Route path="/portfolio" element={<Portfolio />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/account" element={<Account />} />
-                  <Route path="/profile/*" element={<Profile />} />
-                </Routes>
-              </div>
-            </div>
-          </div>
+          <NavController />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/predict" element={<Predict />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/profile/*" element={<Profile />} />
+          </Routes>
         </AuthProvider>
       </Router>
     </ApolloProvider>
