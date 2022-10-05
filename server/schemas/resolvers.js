@@ -93,7 +93,6 @@ const resolvers = {
       return { usersTickers };
     },
     cards: async (parent, args, ctx) => {
-      console.log(args);
       const { ticker, date, order } = args;
       let filter = {};
       if (ticker === "*ALL*") {

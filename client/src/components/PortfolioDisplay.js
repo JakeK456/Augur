@@ -4,7 +4,6 @@ import { GET_CARDS, GET_DISPLAY_GRAPH, NUM_PREDICTIONS } from "../util/queries";
 import Card from "./Card";
 import GraphModal from "./GraphModal";
 import BlueChevronButton from "./Buttons/BlueChevronButton";
-
 import SearchTickerDropDown from "./SearchTickerDropDown";
 import SortDropDown from "./SortDropDown";
 
@@ -28,7 +27,6 @@ export default function PortfolioDisplay() {
   const [getPredictionData] = useLazyQuery(GET_DISPLAY_GRAPH);
 
   useEffect(() => {
-    console.log("useEffect");
     getCards(searchInput, sortInput);
   }, []);
 
@@ -39,12 +37,10 @@ export default function PortfolioDisplay() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log("handleSubmit");
     getCards(searchInput, sortInput);
   };
 
   const getCards = async (ticker, dateOrder) => {
-    console.log("getCards");
     const date = dateOrder.split(" ")[0].toLowerCase();
     const order = dateOrder.split(" ")[3].toLowerCase();
     const { loading, error, data } = await getCardData({
@@ -52,7 +48,6 @@ export default function PortfolioDisplay() {
       fetchPolicy: "network-only",
     });
     setCards(data.cards);
-    console.log(data.cards);
   };
 
   const handleCardClicked = async (predictionId) => {
