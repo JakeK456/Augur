@@ -149,12 +149,12 @@ const resolvers = {
       const graphData = {
         ticker: prediction.ticker,
         datasets: [
-          { data: coords, borderColor: setLineColor(y), borderDash: [] },
           {
             data: prediction.coordinates,
             borderColor: "#a7a7a7",
             borderDash: [5, 5],
           },
+          { data: coords, borderColor: setLineColor(y), borderDash: [] },
         ],
       };
 

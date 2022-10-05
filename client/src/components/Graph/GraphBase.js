@@ -6,7 +6,7 @@ import { useRef } from "react";
 
 export default function GraphBase({ graphData, getParentOptions }) {
   const chartRef = useRef();
-
+  console.log(graphData);
   const baseOptions = {
     scales: {
       x: {
