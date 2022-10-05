@@ -10,6 +10,7 @@ const moment = require("moment");
 require("dotenv").config();
 const { convertLabelToTimeSpan, setLineColor } = require("../util/graph");
 const ProfilePicture = require("../models/ProfilePicture");
+const { getNews } = require("../util/pollNews");
 
 const TIME_SPAN_MULTIPLIER = 4;
 
@@ -170,28 +171,7 @@ const resolvers = {
       return { url: profilePicture.url };
     },
     news: async (parent, args) => {
-      const maUrl = `https://api.marketaux.com/v1/news/all?filter_entities=true&language=en&api_token=${process.env.MA_KEY}`;
-
-      const response = await fetch(maUrl);
-      const rawdata = await response.json();
-
-      const data = rawdata.data.map(
-        ({ uuid, title, source, image_url, url }) => {
-          if (image_url === "") {
-            image_url =
-              "https://static.businessworld.in/article/article_extra_large_image/1663780107_A00qNn_jensen_huang.jpg";
-          }
-          return {
-            uuid,
-            title,
-            source,
-            image_url,
-            url,
-          };
-        }
-      );
-
-      return data;
+      return getNews();
     },
     profile: async (parent, args, ctx) => {
       const { accountId } = args;

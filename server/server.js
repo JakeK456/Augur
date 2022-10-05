@@ -5,6 +5,7 @@ const { ApolloServer } = require("apollo-server-express");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const { authMiddleware } = require("./util/auth");
+const { pollNews } = require("./util/pollNews");
 
 const PORT = process.env.PORT || 3001;
 
@@ -52,6 +53,9 @@ async function startServer(typeDefs, resolvers) {
 
     // start listening for requests
     await new Promise((resolve) => app.listen({ port: PORT }, resolve));
+
+    pollNews();
+
     console.log(
       `🚀 Apollo Server ready at http://localhost:${PORT}${server.graphqlPath}`
     );
