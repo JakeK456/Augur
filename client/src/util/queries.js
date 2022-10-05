@@ -36,9 +36,17 @@ export const NUM_PREDICTIONS = gql`
   }
 `;
 
+export const ALL_TICKERS_FOR_USER = gql`
+  query usersTickers {
+    usersTickers {
+      usersTickers
+    }
+  }
+`;
+
 export const GET_CARDS = gql`
-  query cards($ticker: String!) {
-    cards(ticker: $ticker) {
+  query cards($ticker: String!, $date: String!, $order: String!) {
+    cards(ticker: $ticker, date: $date, order: $order) {
       predictionId
       ticker
       startDate

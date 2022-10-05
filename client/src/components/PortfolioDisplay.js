@@ -1,19 +1,36 @@
-import { useState } from "react";
-import { useLazyQuery } from "@apollo/client";
-import { GET_CARDS, GET_DISPLAY_GRAPH } from "../util/queries";
+import { useEffect, useState } from "react";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { GET_CARDS, GET_DISPLAY_GRAPH, NUM_PREDICTIONS } from "../util/queries";
 import Card from "./Card";
 import GraphModal from "./GraphModal";
 import BlueChevronButton from "./Buttons/BlueChevronButton";
 
+import SearchTickerDropDown from "./SearchTickerDropDown";
+import SortDropDown from "./SortDropDown";
+
 export default function PortfolioDisplay() {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("*ALL*");
+  const [sortInput, setSortInput] = useState("Start Date - Descending");
   const [cards, setCards] = useState([]);
   const [graphModal, setGraphModal] = useState({
     isShowing: false,
     data: null,
   });
+
+  const { data: { numPredictions: { numPredictions } = {} } = {} } = useQuery(
+    NUM_PREDICTIONS,
+    {
+      fetchPolicy: "network-only",
+    }
+  );
+
   const [getCardData] = useLazyQuery(GET_CARDS);
   const [getPredictionData] = useLazyQuery(GET_DISPLAY_GRAPH);
+
+  useEffect(() => {
+    console.log("useEffect");
+    getCards(searchInput, sortInput);
+  }, []);
 
   const handleInputChange = (evt) => {
     const value = evt.target.value.toUpperCase();
@@ -22,15 +39,20 @@ export default function PortfolioDisplay() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    getCards();
+    console.log("handleSubmit");
+    getCards(searchInput, sortInput);
   };
 
-  const getCards = async () => {
+  const getCards = async (ticker, dateOrder) => {
+    console.log("getCards");
+    const date = dateOrder.split(" ")[0].toLowerCase();
+    const order = dateOrder.split(" ")[3].toLowerCase();
     const { loading, error, data } = await getCardData({
-      variables: { ticker: searchInput },
+      variables: { ticker, date, order },
       fetchPolicy: "network-only",
     });
     setCards(data.cards);
+    console.log(data.cards);
   };
 
   const handleCardClicked = async (predictionId) => {
@@ -46,24 +68,40 @@ export default function PortfolioDisplay() {
 
   return (
     <div className="bg-primary p-5 shadow-xl">
-      <form className="flex" onSubmit={handleSubmit}>
-        <label
-          className="flex shrink-0 basis-1/2 inline-block text-secondary text-lg justify-start items-center"
-          htmlFor="tickerInput"
-        >
-          Ticker Search:
-        </label>
-        <div className="flex basis-1/2">
-          <input
-            className="grow w-0 h-8 py-2 px-3 uppercase shadow appearance-none border rounded  text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-right"
-            id="searchInput"
-            name="search"
-            type="text"
-            placeholder="AAPL"
-            value={searchInput}
-            onChange={handleInputChange}
-          />
-          <BlueChevronButton />
+      <h3 className="text-center text-secondary mb-2">
+        {`You've made a total of ${numPredictions} predictions!`}
+      </h3>
+      <form
+        className="flex flex-col md:flex-row"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+      >
+        <div className="basis-1/2 relative border border-secondary rounded p-6 m-4">
+          <label className="absolute -top-4 left-4 bg-primary text-secondary text-lg px-2">
+            Search
+          </label>
+          <div className="flex px-2 justify-center">
+            <label
+              className="text-secondary text-md mr-6"
+              htmlFor="tickerInput"
+            >
+              Ticker:
+            </label>
+            <SearchTickerDropDown
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
+            />
+            <BlueChevronButton />
+          </div>
+        </div>
+
+        <div className="basis-1/2 relative border border-secondary rounded p-6 m-4">
+          <label className="absolute -top-4 left-4 bg-primary text-secondary text-lg px-2">
+            Sort
+          </label>
+          <div className="flex justify-center px-2">
+            <SortDropDown sortInput={sortInput} setSortInput={setSortInput} />
+          </div>
         </div>
       </form>
 

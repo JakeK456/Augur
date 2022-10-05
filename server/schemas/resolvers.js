@@ -80,13 +80,35 @@ const resolvers = {
       const count = await Prediction.countDocuments({ userId: ctx.user._id });
       return { numPredictions: count };
     },
-    cards: async (parent, args, ctx) => {
-      const predictions = await Prediction.find({
+    usersTickers: async (parent, args, ctx) => {
+      if (!ctx.user) {
+        throw new AuthenticationError("Must be logged in.");
+      }
+      const predictionData = await Prediction.find({
         userId: ctx.user._id,
-        ticker: args.ticker,
-      })
-        .sort({ createdAt: -1 })
-        .limit(12);
+      }).select("ticker");
+
+      const allTickers = predictionData.map((element) => element.ticker);
+      const usersTickers = [...new Set(allTickers)];
+      return { usersTickers };
+    },
+    cards: async (parent, args, ctx) => {
+      console.log(args);
+      const { ticker, date, order } = args;
+      let filter = {};
+      if (ticker === "*ALL*") {
+        filter = {
+          userId: ctx.user._id,
+        };
+      } else {
+        filter = {
+          userId: ctx.user._id,
+          ticker: args.ticker,
+        };
+      }
+      const predictions = await Prediction.find(filter)
+        .sort({ createdAt: order })
+        .limit(15);
       const retval = predictions.map((prediction) => ({
         predictionId: prediction._id,
         ticker: prediction.ticker,

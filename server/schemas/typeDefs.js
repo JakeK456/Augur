@@ -5,11 +5,11 @@ const typeDefs = gql`
   scalar Date
 
   type Query {
-    "Find the logged in user."
     me: User
     ticker(ticker: String!, timeSpan: String!): GraphData!
     numPredictions: NumPredictions
-    cards(ticker: String!): [Card]
+    usersTickers: UsersTickers
+    cards(ticker: String!, date: String!, order: String!): [Card]
     displayGraph(predictionId: String!): GraphData!
     profilePicture: ProfilePicture
     news: [NewsArticle]
@@ -63,6 +63,10 @@ const typeDefs = gql`
     ticker: String!
     x: [Float]!
     y: [Float]!
+  }
+
+  type UsersTickers {
+    usersTickers: [String!]
   }
 
   type Prediction {
