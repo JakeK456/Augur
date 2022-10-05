@@ -7,8 +7,9 @@ export default function NavController() {
   return (
     <div className="bg-white">
       <div className="sm:hidden">
-        <MobileTopHeader />
-        <MobileBottomNav />
+        {/* <MobileTopHeader />
+        <MobileBottomNav /> */}
+        <TabletNav />
       </div>
       <div className="hidden sm:block lg:hidden">
         <TabletNav />

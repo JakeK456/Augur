@@ -5,7 +5,7 @@ export default function HamburgerMenu({ hamburgerOpen, setHamburgerOpen }) {
     <div
       className={`${
         hamburgerOpen ? "visible opacity-100" : "invisible opacity-0"
-      } absolute z-10 w-screen bg-primary rounded-b-lg transition-opacity duration-500 ease-out`}
+      } absolute z-10 w-screen bg-primary transition-opacity duration-500 ease-out`}
       onClick={(event) => {
         event.stopPropagation();
         setHamburgerOpen(false);
