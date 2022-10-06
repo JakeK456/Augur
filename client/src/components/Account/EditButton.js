@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useMutation } from "@apollo/client";
 import { SET_PROFILE_PICTURE } from "../../util/mutations";
 import { GrEdit } from "react-icons/gr";
+import useOutsideClick from "../Hooks/useOutsideClick";
 
 export default function EditButton({ setImageUrl }) {
+  const ref = useRef();
   const [isExpanded, setIsExpanded] = useState(false);
   const [setProfilePicture] = useMutation(SET_PROFILE_PICTURE);
+
+  useOutsideClick(ref, () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+    }
+  });
 
   const uploadPhoto = (e) => {
     e.preventDefault();
@@ -32,7 +40,7 @@ export default function EditButton({ setImageUrl }) {
   };
 
   return (
-    <div>
+    <div ref={ref}>
       <button
         className="flex absolute bottom-2 left-2 px-2 py-1 bg-white  rounded-md border items-center shadow-xl"
         onClick={() => {
