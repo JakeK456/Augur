@@ -107,13 +107,13 @@ const resolvers = {
         };
       }
       const predictions = await Prediction.find(filter)
-        .sort({ createdAt: order })
+        .sort({ [date]: order })
         .limit(15);
       const retval = predictions.map((prediction) => ({
         predictionId: prediction._id,
         ticker: prediction.ticker,
-        startDate: prediction.createdAt,
-        endDate: prediction.coordinates[prediction.coordinates.length - 1].x,
+        startDate: prediction.start,
+        endDate: prediction.end,
       }));
       return retval;
     },
@@ -213,7 +213,15 @@ const resolvers = {
       return { token, user };
     },
     makePrediction: async (parent, args, ctx) => {
-      const user = await Prediction.create({ userId: ctx.user._id, ...args });
+      const { ticker, coordinates, timeSpan } = args;
+      const end = coordinates[coordinates.length - 1].x;
+      const user = await Prediction.create({
+        userId: ctx.user._id,
+        ticker,
+        coordinates,
+        timeSpan,
+        end,
+      });
       return { ...args };
     },
     setProfilePicture: async (parent, args, ctx) => {

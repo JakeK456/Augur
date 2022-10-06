@@ -19,6 +19,14 @@ const predictionSchema = new Schema({
     type: Number,
     default: Date.now(),
   },
+  start: {
+    type: Number,
+    default: Date.now(),
+  },
+  end: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Prediction = model("Prediction", predictionSchema);
